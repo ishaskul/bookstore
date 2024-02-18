@@ -1,7 +1,6 @@
 version: "3.4"
 
 services:
-
   # Database
   bookstore-mysql-db:
     image: mysql:5.7
@@ -9,14 +8,12 @@ services:
     hostname: bookstore-mysql-db
     restart: always
     environment:
-      MYSQL_DATABASE: 'bookstore_db'
-      MYSQL_USER: 'bookstoreDBA'
-      MYSQL_PASSWORD: 'PaSSworD'
-      MYSQL_ROOT_PASSWORD: 'r00tPaSSworD'
+      MYSQL_DATABASE: "bookstore_db"
+      MYSQL_USER: "bookstoreDBA"
+      MYSQL_PASSWORD: "PaSSworD"
+      MYSQL_ROOT_PASSWORD: "r00tPaSSworD"
     ports:
       - "3306:3306"
-    expose:
-      - "3306"
     volumes:
       - bookstore-db-volume:/var/lib/mysql
     networks:
@@ -25,13 +22,16 @@ services:
   # Core services
   bookstore-consul-discovery:
     hostname: bookstore-consul-discovery
-    image: consul
+    image: hashicorp/consul
     container_name: bookstore-consul-discovery
     restart: always
     ports:
       - "8500:8500"
     networks:
       - bookstore-app-network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   bookstore-zuul-api-gateway-server:
     build:
@@ -39,7 +39,7 @@ services:
       args:
         JAR_FILE: bookstore-api-gateway-service-0.0.1-SNAPSHOT.jar
       dockerfile: Dockerfile
-    image: bookstore-zuul-api-gateway-server
+    image: 127.0.0.1:5000/bookstore-zuul-api-gateway-server
     container_name: bookstore-zuul-api-gateway-server
     hostname: bookstore-zuul-api-gateway-server
     ports:
@@ -50,6 +50,9 @@ services:
       - SERVER_PORT=8765
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   bookstore-account-service:
     build:
@@ -57,7 +60,7 @@ services:
       args:
         JAR_FILE: bookstore-account-service-0.0.1-SNAPSHOT.jar
       dockerfile: Dockerfile
-    image: bookstore-account-service
+    image: 127.0.0.1:5000/bookstore-account-service
     container_name: bookstore-account-service
     hostname: bookstore-account-service
     ports:
@@ -68,6 +71,9 @@ services:
       - SERVER_PORT=4001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+    deploy:
+      replicas: 3
+
 
   bookstore-billing-service:
     build:
@@ -75,7 +81,7 @@ services:
       args:
         JAR_FILE: bookstore-billing-service-0.0.1-SNAPSHOT.jar
       dockerfile: Dockerfile
-    image: bookstore-billing-service
+    image: 127.0.0.1:5000/bookstore-billing-service
     container_name: bookstore-billing-service
     hostname: bookstore-billing-service
     ports:
@@ -86,6 +92,8 @@ services:
       - SERVER_PORT=5001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+    deploy:
+      replicas: 3
 
   bookstore-catalog-service:
     build:
@@ -93,7 +101,7 @@ services:
       args:
         JAR_FILE: bookstore-catalog-service-0.0.1-SNAPSHOT.jar
       dockerfile: Dockerfile
-    image: bookstore-catalog-service
+    image: 127.0.0.1:5000/bookstore-catalog-service
     container_name: bookstore-catalog-service
     hostname: bookstore-catalog-service
     ports:
@@ -104,6 +112,8 @@ services:
       - SERVER_PORT=6001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+    deploy:
+      replicas: 3
 
   bookstore-order-service:
     build:
@@ -111,7 +121,7 @@ services:
       args:
         JAR_FILE: bookstore-order-service-0.0.1-SNAPSHOT.jar
       dockerfile: Dockerfile
-    image: bookstore-order-service
+    image: 127.0.0.1:5000/bookstore-order-service
     container_name: bookstore-order-service
     hostname: bookstore-order-service
     ports:
@@ -122,6 +132,8 @@ services:
       - SERVER_PORT=7001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+    deploy:
+      replicas: 3
 
   bookstore-payment-service:
     build:
@@ -129,7 +141,7 @@ services:
       args:
         JAR_FILE: bookstore-payment-service-0.0.1-SNAPSHOT.jar
       dockerfile: Dockerfile
-    image: bookstore-payment-service
+    image: 127.0.0.1:5000/bookstore-payment-service
     container_name: bookstore-payment-service
     hostname: bookstore-payment-service
     ports:
@@ -140,6 +152,8 @@ services:
       - SERVER_PORT=8001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+    deploy:
+      replicas: 3
 
   # Tracing service
   bookstore-zipkin:
@@ -156,7 +170,7 @@ services:
     build:
       context: ./bookstore-prometheus
       dockerfile: Dockerfile
-    image: bookstore-prometheus
+    image: 127.0.0.1:5000/bookstore-prometheus
     container_name: bookstore-prometheus
     hostname: bookstore-prometheus
     ports:
@@ -168,7 +182,7 @@ services:
     build:
       context: ./bookstore-graphana
       dockerfile: Dockerfile
-    image: graphana
+    image: 127.0.0.1:5000/graphana
     container_name: bookstore-graphana
     hostname: bookstore-graphana
     ports:
@@ -183,7 +197,7 @@ services:
     build:
       context: ./bookstore-telegraph
       dockerfile: Dockerfile
-    image: bookstore-telegraf
+    image: 127.0.0.1:5000/bookstore-telegraf
     container_name: bookstore-telegraf
     hostname: bookstore-telegraf
     environment:
@@ -242,4 +256,4 @@ volumes:
 
 networks:
   bookstore-app-network:
-    driver: bridge
+    external: true

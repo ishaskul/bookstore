@@ -1,5 +1,4 @@
-# BookStoreApp-Distributed-Application [![HitCount](http://hits.dwyl.io/devdcores/BookStoreApp-Distributed-Application.svg)](http://hits.dwyl.io/devdcores/BookStoreApp-Distributed-Application)
-
+# BookStoreApp-Distributed-Application
 <hr>
 
 ## About this project
@@ -26,95 +25,48 @@ based on the url route. Zuul also registers with eureka and gets the ip/domain f
 
 <hr>
 
-## Run this project in Local Machine
-
->Frontend App 
+## Run front-end app
 
 Navigate to `bookstore-frontend-react-app` folder
 Run below commnads to start Frontend React Application
 
-```
+```bash
 yarn install
 yarn start
 ```
 
->Backend Services
->
-To Start Backend Services follow below steps.
->Using Intellij/Eclipse or Command Line
+## Run this project using Docker Swarm
 
-Import this project into IDE and run all Spring boot projects or 
-build all the jars running `mvn clean install` command in root parent pom, which builds all jars.
-All services will be up in the below mentioned ports.
+Follow the [tutorial](https://docs.docker.com/engine/swarm/swarm-tutorial/create-swarm/) for setting up Docker Swarm on your cluster.
 
-But running this way we wont get monitoring of microservices. 
-So if monitoring needed to see metrics like jvm memory, tomcat error count and other metrics.
+Run `docker service create --name registry --publish published=5000,target=5000 registry:2` to create a disposable registry for the docker images.
 
-Use below method to deploy all the services and monitoring setup in docker.
-
->Using Docker(Recommended)
-
-Start Docker Engine in your machine.
+Create network: `docker network create --driver overlay bookstore-app-network`
 
 Run `mvn clean install` at root of project to build all the microservices jars.
 
-Run `docker-compose up --build` to start all the containers.
+Run `docker compose build` to build all the images.
 
-Use the `Postman Api collection` in the Postman directory. To make request to various services.
+Run `docker compuse push` to push all the generated images to the local repository.
 
-Services will be exposed in this ports
+Run `docker stack deploy --with-registry-auth -c docker-compose.yml <name_of_stack>` to deploy the stack.
 
-```
-Api Gateway Service       : 8765
-Eureka Discovery Service  : 8761
-Consul Discovery          : 8500
-Account Service           : 4001
-Billing Service           : 5001
-Catalog Service           : 6001
-Order Service             : 7001
-Payment Service           : 8001
-```
+**Note:** This setup deploys 3 replicas of each business logic service.
 
-<hr>
+## Clear stack from swarm.
+
+Bring stack down: `docker stack rm <name_of_stack>`
+
+Remove local repository: `docker service rm registry`
 
 ### Service Discovery
 This project uses Eureka or Consul as Discovery service.
 
 While running services in local, then using eureka as service discovery.
 
-While running using docker, then consul is the service discovery. 
+While running using docker, consul is the service discovery. 
 
 Reason to use Consul is it has better features and support compared to Eureka. Running services individually in local uses Eureka as service discovery because dont want to run consul agent and set it up as it becomes extra overhead to manage. Since docker-compose manages all consul stuff hence using Consul while running services in docker.
-
-<hr>
-
-### Troubleshooting
-
-If any issue while starting up services or any api failing.
-It may be because of new columns or new tables, at this point of time i am not worried much about DB migrations.
-
-So any issues, **clear/drop bookstore_db**, things may start working agai, if not **raise a Issue in Github** i will help.
-
-<hr>
-
-## Deployment(In Future It will be deployed like this)
-AWS is the cloud provider will be using to deploy this project.
-
-Project wil deployed in multiple Regions and multiple Availability Zones. 
-
-React App, Zuul and Eureka will be the public facing service, which will be in public subnet
-
-All the microservices will be packed into docker containers and deployes in the AWS ECS in the private subnet.
-
-Private subnets uses NAT Gateway to make requests to external internet.
-
-Bastian host can be used to ssh into private subnet microservices.
-
-Below is the AWS Architecture diagram for better understanding.
-
-![Bookstore Final](https://user-images.githubusercontent.com/14878408/65784998-000e4500-e171-11e9-96d7-b7c199e74c4c.jpg)
-
-<hr>
 
 ## Monitoring
 There are 2 setups for monitoring
@@ -149,33 +101,6 @@ Password : admin
 
 ```
 
-<hr>
-
-**Screenshots of Tracing in Zipkin.**
-
-<img alt="Zipkin" src="https://user-images.githubusercontent.com/14878408/65939069-6b426a80-e442-11e9-90fd-d54b60786d41.png">
-<hr>
-<img alt="Zipkin" src="https://user-images.githubusercontent.com/14878408/65939165-bb213180-e442-11e9-9ad7-5cfd4fa121ef.png">
-
-<hr>
-
-**Screenshots of Monitoring in Graphana.**
-
-<img width="1680" alt="Screen Shot 2019-10-16 at 9 16 21 PM" src="https://user-images.githubusercontent.com/14878408/66936473-65ac6d80-f05b-11e9-9e7d-9652059438cd.png">
-
-
-<img width="1680" alt="Screen Shot 2019-10-16 at 9 16 12 PM" src="https://user-images.githubusercontent.com/14878408/66936524-79f06a80-f05b-11e9-8898-1002813aad8e.png">
-
-<hr>
-
-**Screenshots of Monitoring in Chronograf(TICK).**
-
-![Screen Shot 2019-10-16 at 12 44 20 PM](https://user-images.githubusercontent.com/14878408/66934353-f8e3a400-f057-11e9-82ab-eda7a230c09d.png)
-
-![Screen Shot 2019-10-16 at 12 52 08 PM](https://user-images.githubusercontent.com/14878408/66934482-2e888d00-f058-11e9-8dea-f1f275765265.png)
-
-<hr>
-
 > Account Service
 
 To Get `access_token` for the user, you need `clientId` and `clientSecret`
@@ -203,5 +128,3 @@ password: 'cores.devd123'
 *To get the accessToken (Admin User)* 
 
 ```curl 93ed453e-b7ac-4192-a6d4-c45fae0d99ac:client.devd123@localhost:4001/oauth/token -d grant_type=password -d username=admin.admin -d password=admin.devd123```
-
-<hr>
