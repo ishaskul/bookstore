@@ -53,11 +53,13 @@ Run `docker stack deploy --with-registry-auth -c docker-compose.yml <name_of_sta
 
 **Note:** This setup deploys 3 replicas of each business logic service.
 
-## Clear stack from swarm.
+## Remove the stack from your swarm cluster
 
 Bring stack down: `docker stack rm <name_of_stack>`
 
 Remove local repository: `docker service rm registry`
+
+>
 
 ### Service Discovery
 This project uses Eureka or Consul as Discovery service.
