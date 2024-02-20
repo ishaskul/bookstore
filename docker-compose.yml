@@ -210,7 +210,7 @@ services:
       - bookstore-app-network
 
   bookstore-influxdb:
-    image: influxdb
+    image: influxdb:1.7.6
     container_name: bookstore-influxdb
     hostname: bookstore-influxdb
     volumes:
