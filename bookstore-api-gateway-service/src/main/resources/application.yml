@@ -19,10 +19,10 @@ spring:
       max-request-size: 10MB
 
 zuul:
-  sensitiveHeaders:
   host:
     socket-timeout-millis: 30000
     connect-timeout-millis: 30000
+    max-total-connections: 1000
   prefix: /api
   routes:
     billing:
@@ -46,7 +46,7 @@ zuul:
   ribbon-isolation-strategy: THREAD
 
 ribbon:
-  ConnectTimeout: 10000
+  ConnectTimeout: 100000
   ReadTimeout: 60000
 
 hystrix:
@@ -55,4 +55,4 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 40000
+            timeoutInMilliseconds: 100000
