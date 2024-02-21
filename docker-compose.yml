@@ -16,7 +16,6 @@ services:
       #Connection Pool
       MYSQL_POOL_MAX_ACTIVE: '200'
       MYSQL_POOL_MAX_WAIT: '5000'
-      MYSQL_POOL_MAX_IDLE: '1'
     ports:
       - "3306:3306"
     volumes:
