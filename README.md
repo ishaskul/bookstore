@@ -47,7 +47,7 @@ Run `mvn clean install` at root of project to build all the microservices jars.
 
 Run `docker compose build` to build all the images.
 
-Run `docker compuse push` to push all the generated images to the local repository.
+Run `docker compose push` to push all the generated images to the local repository.
 
 Run `docker stack deploy --with-registry-auth -c docker-compose.yml <name_of_stack>` to deploy the stack.
 
