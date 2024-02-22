@@ -19,7 +19,7 @@ spring:
       max-request-size: 10MB
 
 zuul:
-  sensitive-headers: Cookie,Set-Cookie
+  sensitive-headers:
   host:
     socket-timeout-millis: 30000
     connect-timeout-millis: 30000
