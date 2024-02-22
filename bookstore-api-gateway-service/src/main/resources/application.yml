@@ -19,7 +19,7 @@ spring:
       max-request-size: 10MB
 
 zuul:
-  sensitive-headers:
+  sensitive-headers: Cookie,Set-Cookie
   host:
     socket-timeout-millis: 30000
     connect-timeout-millis: 30000
@@ -47,7 +47,7 @@ zuul:
   ribbon-isolation-strategy: THREAD
 
 ribbon:
-  ConnectTimeout: 10000
+  ConnectTimeout: 100000
   ReadTimeout: 60000
 
 hystrix:
