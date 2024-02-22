@@ -45,8 +45,8 @@ services:
         JAR_FILE: bookstore-api-gateway-service-0.0.1-SNAPSHOT.jar
       dockerfile: Dockerfile
     image: 127.0.0.1:5000/bookstore-zuul-api-gateway-server
-    container_name: bookstore-api-gateway-server
-    hostname: bookstore-api-gateway-server
+    container_name: bookstore-zuul-api-gateway-server
+    hostname: bookstore-zuul-api-gateway-server
     ports:
       - "8765:8765"
     networks:
