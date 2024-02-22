@@ -16,6 +16,7 @@ services:
       #Connection Pool
       MYSQL_POOL_MAX_ACTIVE: '200'
       MYSQL_POOL_MAX_WAIT: '5000'
+      MYSQL_POOL_MAX_IDLE: '20'
     ports:
       - "3306:3306"
     volumes:
@@ -76,7 +77,10 @@ services:
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
     deploy:
-      replicas: 3
+      labels:
+        - "swarm.autoscaler=true"
+        - "swarm.autoscaler.minimum=1"
+        - "swarm.autoscaler.maximum=3"
 
 
   bookstore-billing-service:
@@ -97,7 +101,10 @@ services:
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
     deploy:
-      replicas: 3
+      labels:
+        - "swarm.autoscaler=true"
+        - "swarm.autoscaler.minimum=1"
+        - "swarm.autoscaler.maximum=3"
 
   bookstore-catalog-service:
     build:
@@ -117,7 +124,10 @@ services:
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
     deploy:
-      replicas: 3
+      labels:
+        - "swarm.autoscaler=true"
+        - "swarm.autoscaler.minimum=1"
+        - "swarm.autoscaler.maximum=3"
 
   bookstore-order-service:
     build:
@@ -137,7 +147,10 @@ services:
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
     deploy:
-      replicas: 3
+      labels:
+        - "swarm.autoscaler=true"
+        - "swarm.autoscaler.minimum=1"
+        - "swarm.autoscaler.maximum=3"
 
   bookstore-payment-service:
     build:
@@ -157,7 +170,10 @@ services:
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
     deploy:
-      replicas: 3
+      labels:
+        - "swarm.autoscaler=true"
+        - "swarm.autoscaler.minimum=1"
+        - "swarm.autoscaler.maximum=3"
 
   # Tracing service
   bookstore-zipkin:
