@@ -46,7 +46,7 @@ zuul:
   ribbon-isolation-strategy: THREAD
 
 ribbon:
-  ConnectTimeout: 100000
+  ConnectTimeout: 10000
   ReadTimeout: 60000
 
 hystrix:
