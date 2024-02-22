@@ -23,7 +23,6 @@ zuul:
   host:
     socket-timeout-millis: 30000
     connect-timeout-millis: 30000
-    max-total-connections: 1000
   prefix: /api
   routes:
     billing:
