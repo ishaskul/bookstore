@@ -76,11 +76,6 @@ services:
       - SERVER_PORT=4001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
-    deploy:
-      labels:
-        - "swarm.autoscaler=true"
-        - "swarm.autoscaler.minimum=1"
-        - "swarm.autoscaler.maximum=3"
 
 
   bookstore-billing-service:
@@ -100,11 +95,6 @@ services:
       - SERVER_PORT=5001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
-    deploy:
-      labels:
-        - "swarm.autoscaler=true"
-        - "swarm.autoscaler.minimum=1"
-        - "swarm.autoscaler.maximum=3"
 
   bookstore-catalog-service:
     build:
@@ -123,11 +113,6 @@ services:
       - SERVER_PORT=6001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
-    deploy:
-      labels:
-        - "swarm.autoscaler=true"
-        - "swarm.autoscaler.minimum=1"
-        - "swarm.autoscaler.maximum=3"
 
   bookstore-order-service:
     build:
@@ -146,11 +131,6 @@ services:
       - SERVER_PORT=7001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
-    deploy:
-      labels:
-        - "swarm.autoscaler=true"
-        - "swarm.autoscaler.minimum=1"
-        - "swarm.autoscaler.maximum=3"
 
   bookstore-payment-service:
     build:
@@ -169,11 +149,6 @@ services:
       - SERVER_PORT=8001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
-    deploy:
-      labels:
-        - "swarm.autoscaler=true"
-        - "swarm.autoscaler.minimum=1"
-        - "swarm.autoscaler.maximum=3"
 
   # Tracing service
   bookstore-zipkin:
@@ -219,6 +194,7 @@ services:
       dockerfile: Dockerfile
     image: 127.0.0.1:5000/bookstore-telegraf
     container_name: bookstore-telegraf
+    user: telegraf:999
     hostname: bookstore-telegraf
     environment:
       HOSTNAME: "bookstore-telegraf"
@@ -266,6 +242,27 @@ services:
       - "9092:9092"
     networks:
       - bookstore-app-network
+      
+  bookstore-scaphandre:
+    image: hubblo/scaphandre
+    privileged: true
+    ports: 
+      - "8080:8080"
+    volumes:
+      - type: bind
+        source: /proc
+        target: /proc
+      - type: bind
+        source: /sys/class/powercap
+        target: /sys/class/powercap
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    environment:
+      - SERVER_PORT=8080
+    command: ["prometheus", "--containers"]                        
+    networks:
+      - bookstore-app-network 
 
 volumes:
   bookstore-db-volume:

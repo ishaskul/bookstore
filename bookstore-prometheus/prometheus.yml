@@ -3,6 +3,8 @@ global:
   scrape_interval:     5s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
   evaluation_interval: 5s # Evaluate rules every 15 seconds. The default is every 1 minute.
   # scrape_timeout is set to the global default (10s).
+  external_labels:
+      monitor: 'scaphandre-monitor'
 
 # Alertmanager configuration
 alerting:
@@ -31,3 +33,11 @@ scrape_configs:
         action: keep
       - source_labels: ['__meta_consul_service']
         target_label: job
+   
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'bookstore-scaphandre'
+    static_configs:
+      - targets: ['bookstore-scaphandre:8080']

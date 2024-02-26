@@ -51,7 +51,7 @@ Run `docker compose push` to push all the generated images to the local reposito
 
 Run `docker stack deploy --with-registry-auth -c docker-compose.yml <name_of_stack>` to deploy the stack.
 
-**Note:** This setup deploys 3 replicas of each business logic service.
+In order for telegraf to be able to read information from influxDB, you need to add the docker GID in the `docker-compose.yml` file under the `bookstore-telegraf` configuration.
 
 ## Remove the stack from your swarm cluster
 
@@ -73,7 +73,7 @@ Reason to use Consul is it has better features and support compared to Eureka. R
 ## Monitoring
 There are 2 setups for monitoring
 
-1. Prometheus and Graphana.
+1. Prometheus, Scaphandre and Graphana.
 2. TICK stack monitoring.
 
 Both the setups are very powerful, where prometheus works on pull model. we have to provide target hosts where the prometheus can pull the metrics from. If we specify target hosts using individual hostname/ip its not feasible at end because it will be like hard coded hostnames/ip. So we use Consul discovery to provide target hosts dynamically. By this way when more instances added for same service no need to worry about adding to prometheus target hosts because consul will dynamically add this target in prometheus.
@@ -85,9 +85,12 @@ TICK(Telegraf, InfluxDB, Chronograf, Kapacitor) This setup is getting more atten
 Dashboards are available at below ports
 
 ```
-Graphana   : 3030
-Zipkin     : 9411
 Prometheus : 9090
+Scaphandre : 8080
+Graphana   : 3030
+
+Zipkin     : 9411
+
 Telegraf   : 8125
 InfluxDb   : 8086
 Chronograf : 8888
