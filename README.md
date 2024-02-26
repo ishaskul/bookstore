@@ -51,7 +51,7 @@ Run `docker compose push` to push all the generated images to the local reposito
 
 Run `docker stack deploy --with-registry-auth -c docker-compose.yml <name_of_stack>` to deploy the stack.
 
-In order for telegraf to be able to read information from influxDB, you need to add the docker GID in the `docker-compose.yml` file under the `bookstore-telegraf` configuration.
+In order for telegraf to be able to read information from influxDB, you need to modify the docker GID accordingly in the `docker-compose.yml` file under the `bookstore-telegraf` configuration (specifically, `user: telegraf:<GID>`).
 
 ## Remove the stack from your swarm cluster
 
