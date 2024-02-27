@@ -35,15 +35,25 @@ yarn install
 yarn start
 ```
 
+## Build all microservice Jars
+Run `mvn clean install` at root of project to build all the microservices jars.
+
+
 ## Run this project using Docker Swarm
 
 Follow the [tutorial](https://docs.docker.com/engine/swarm/swarm-tutorial/create-swarm/) for setting up Docker Swarm on your cluster.
 
-Run `docker service create --name registry --publish published=5000,target=5000 registry:2` to create a disposable registry for the docker images.
+### Demo deployment
+Run `deploy.sh` to automatically deploy the stack.
+
+You can specify the compose file to be used and the name of the stack as follows:
+`deploy.sh -n <name_of_stack> -c <compose_file>`
+
+### Manual deployment
 
 Create network: `docker network create --driver overlay bookstore-app-network`
 
-Run `mvn clean install` at root of project to build all the microservices jars.
+Run `docker service create --name registry --publish published=5000,target=5000 registry:2` to create a disposable registry for the docker images.
 
 Run `docker compose build` to build all the images.
 
