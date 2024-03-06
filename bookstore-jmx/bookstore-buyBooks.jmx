@@ -57,8 +57,8 @@
           <stringProp name="LoopController.loops">1</stringProp>
           <boolProp name="LoopController.continue_forever">false</boolProp>
         </elementProp>
-        <stringProp name="ThreadGroup.num_threads">100</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">500</stringProp>
+        <stringProp name="ThreadGroup.num_threads">10</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">5</stringProp>
         <longProp name="ThreadGroup.start_time">1370726934000</longProp>
         <longProp name="ThreadGroup.end_time">1370726934000</longProp>
         <boolProp name="ThreadGroup.scheduler">false</boolProp>
@@ -305,7 +305,7 @@
                 <collectionProp name="HeaderManager.headers">
                   <elementProp name="Authorization" elementType="Header">
                     <stringProp name="Header.name">Authorization</stringProp>
-                    <stringProp name="Header.value">Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOlsid2ViIl0sInVzZXJfaWQiOiJkMTc0YTdjYi00NjMzLTQwOGQtYmYzOS0xNzkwZDJhYWI4YTEiLCJ1c2VyX25hbWUiOiJjeWxzeiIsInNjb3BlIjpbInJlYWQiLCJ3cml0ZSJdLCJleHAiOjE3MDk0NjA0NTcsImF1dGhvcml0aWVzIjpbIlNUQU5EQVJEX1VTRVIiXSwianRpIjoiNGIzMDk2NzItMDA5Ni00ZmVhLTkxODAtZGZiMWZmYTU3ZWQ0IiwiY2xpZW50X2lkIjoiOTNlZDQ1M2UtYjdhYy00MTkyLWE2ZDQtYzQ1ZmFlMGQ5OWFjIn0.agu_tb-hhBjxd9KSg4Rc-6ReoOfl3JiaWVgxVwXnliK50wztn_oRTce3OTNqHnKkkplTb8u7Oo36_eAAPsVsQvMxxuJiImszIlEUJn4mPw3m2hej4z9jNuYFkkHyGzZ0PzPaxl__gyv2BzNz4Bl4n9op_pD13fFol_YRRTjnrj0E-ReANbsiiCXuj2tAPwF42aHFccI-KjbTnc36lrc3sJrGIt4D5wYWhZLxp91xBKDpJYSNEkOIcTMJx2JU5_U-3dszGP4iIORGgIrNkuKq-ryK4OcNiCkSPjf4BdxfHI60de5rAzGZQnD_KTOtulqMPyJYjPQqMXF3ICGy9iu0vg</stringProp>
+                    <stringProp name="Header.value">Bearer ${token}</stringProp>
                   </elementProp>
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
