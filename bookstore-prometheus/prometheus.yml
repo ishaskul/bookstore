@@ -1,4 +1,4 @@
-# my global config
+# global config
 global:
   scrape_interval:     5s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
   evaluation_interval: 5s # Evaluate rules every 15 seconds. The default is every 1 minute.
@@ -33,11 +33,31 @@ scrape_configs:
         action: keep
       - source_labels: ['__meta_consul_service']
         target_label: job
-   
+      
   - job_name: 'prometheus'
     static_configs:
       - targets: ['localhost:9090']
 
-  - job_name: 'bookstore-scaphandre'
+  - job_name: 'scaphandre'
     static_configs:
-      - targets: ['bookstore-scaphandre:8080']
+     - targets: ['145.108.225.7:8080']
+       labels:
+         instance: 'gl2'
+     - targets: ['145.108.225.16:8080']
+       labels:
+         instance: 'gl5'
+     - targets: ['145.108.225.17:8080']
+       labels:
+         instance: 'gl6'
+
+  - job_name: 'node-exporter'
+    static_configs:
+     - targets: ['145.108.225.7:9100']
+       labels:
+         instance: 'gl2'
+     - targets: ['145.108.225.16:9100']
+       labels:
+         instance: 'gl5'
+     - targets: ['145.108.225.17:9100']
+       labels:
+         instance: 'gl6'

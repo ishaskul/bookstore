@@ -4,6 +4,7 @@ services:
   # Database
   bookstore-mysql-db:
     image: mysql:5.7
+    command: [ "--max_connections=10000" ]
     container_name: bookstore-mysql-db
     hostname: bookstore-mysql-db
     restart: always
@@ -14,9 +15,6 @@ services:
       MYSQL_ROOT_PASSWORD: "r00tPaSSworD"
 
       #Connection Pool
-      MYSQL_POOL_MAX_ACTIVE: '200'
-      MYSQL_POOL_MAX_WAIT: '5000'
-      MYSQL_POOL_MAX_IDLE: '20'
     ports:
       - "3306:3306"
     volumes:
@@ -76,7 +74,9 @@ services:
       - SERVER_PORT=4001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
-
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   bookstore-billing-service:
     build:
@@ -149,12 +149,14 @@ services:
       - SERVER_PORT=8001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
-
+      
   # Tracing service
   bookstore-zipkin:
     image: openzipkin/zipkin
     container_name: bookstore-zipkin
     hostname: bookstore-zipkin
+    environment:
+      - JAVA_OPTS=-Xms512m -Xmx10g
     ports:
       - "9411:9411"
     networks:
@@ -172,6 +174,9 @@ services:
       - "9090:9090"
     networks:
       - bookstore-app-network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   bookstore-grafana:
     build:
@@ -186,6 +191,9 @@ services:
       - bookstore-graphana-volume:/var/lib/grafana
     networks:
       - bookstore-app-network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   # Monitoring using TICK stack.
   bookstore-telegraf:
@@ -204,6 +212,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - bookstore-app-network
+    deploy:
+      replicas: 3
 
   bookstore-influxdb:
     image: influxdb:1.7.6
@@ -242,27 +252,6 @@ services:
       - "9092:9092"
     networks:
       - bookstore-app-network
-      
-  bookstore-scaphandre:
-    image: hubblo/scaphandre
-    privileged: true
-    ports: 
-      - "8080:8080"
-    volumes:
-      - type: bind
-        source: /proc
-        target: /proc
-      - type: bind
-        source: /sys/class/powercap
-        target: /sys/class/powercap
-      - type: bind
-        source: /var/run/docker.sock
-        target: /var/run/docker.sock
-    environment:
-      - SERVER_PORT=8080
-    command: ["prometheus", "--containers"]                        
-    networks:
-      - bookstore-app-network 
 
 volumes:
   bookstore-db-volume:
