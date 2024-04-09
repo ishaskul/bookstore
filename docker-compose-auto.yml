@@ -1,0 +1,300 @@
+version: "3.4"
+
+services:
+  # Database
+  bookstore-mysql-db:
+    image: mysql:5.7
+    container_name: bookstore-mysql-db
+    hostname: bookstore-mysql-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: "bookstore_db"
+      MYSQL_USER: "bookstoreDBA"
+      MYSQL_PASSWORD: "PaSSworD"
+      MYSQL_ROOT_PASSWORD: "r00tPaSSworD"
+
+      #Connection Pool
+      MYSQL_POOL_MAX_ACTIVE: '200'
+      MYSQL_POOL_MAX_WAIT: '5000'
+      MYSQL_POOL_MAX_IDLE: '20'
+    ports:
+      - "3306:3306"
+    volumes:
+      - bookstore-db-volume:/var/lib/mysql
+    networks:
+      - bookstore-app-network
+
+  # Core services
+  bookstore-consul-discovery:
+    hostname: bookstore-consul-discovery
+    image: hashicorp/consul
+    container_name: bookstore-consul-discovery
+    restart: always
+    ports:
+      - "8500:8500"
+    networks:
+      - bookstore-app-network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+  bookstore-zuul-api-gateway-server:
+    build:
+      context: ./bookstore-api-gateway-service
+      args:
+        JAR_FILE: bookstore-api-gateway-service-0.0.1-SNAPSHOT.jar
+      dockerfile: Dockerfile
+    image: 127.0.0.1:5000/bookstore-zuul-api-gateway-server
+    container_name: bookstore-zuul-api-gateway-server
+    hostname: bookstore-zuul-api-gateway-server
+    ports:
+      - "8765:8765"
+    networks:
+      - bookstore-app-network
+    environment:
+      - SERVER_PORT=8765
+      - ZIPKIN_HOST=bookstore-zipkin:9411
+      - SPRING_PROFILES_ACTIVE=docker
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+  bookstore-account-service:
+    build:
+      context: ./bookstore-account-service
+      args:
+        JAR_FILE: bookstore-account-service-0.0.1-SNAPSHOT.jar
+      dockerfile: Dockerfile
+    image: 127.0.0.1:5000/bookstore-account-service
+    container_name: bookstore-account-service
+    hostname: bookstore-account-service
+    ports:
+      - "4001:4001"
+    networks:
+      - bookstore-app-network
+    environment:
+      - SERVER_PORT=4001
+      - ZIPKIN_HOST=bookstore-zipkin:9411
+      - SPRING_PROFILES_ACTIVE=docker
+    deploy:
+      labels:
+        swarm.autoscaler: 'true'
+        swarm.autoscaler.maximum: '4'
+        swarm.autoscaler.minimum: '2'
+
+  bookstore-billing-service:
+    build:
+      context: ./bookstore-billing-service
+      args:
+        JAR_FILE: bookstore-billing-service-0.0.1-SNAPSHOT.jar
+      dockerfile: Dockerfile
+    image: 127.0.0.1:5000/bookstore-billing-service
+    container_name: bookstore-billing-service
+    hostname: bookstore-billing-service
+    ports:
+      - "5001:5001"
+    networks:
+      - bookstore-app-network
+    environment:
+      - SERVER_PORT=5001
+      - ZIPKIN_HOST=bookstore-zipkin:9411
+      - SPRING_PROFILES_ACTIVE=docker
+    deploy:
+      labels:
+        swarm.autoscaler: 'true'
+        swarm.autoscaler.maximum: '4'
+        swarm.autoscaler.minimum: '1'
+
+  bookstore-catalog-service:
+    build:
+      context: ./bookstore-catalog-service
+      args:
+        JAR_FILE: bookstore-catalog-service-0.0.1-SNAPSHOT.jar
+      dockerfile: Dockerfile
+    image: 127.0.0.1:5000/bookstore-catalog-service
+    container_name: bookstore-catalog-service
+    hostname: bookstore-catalog-service
+    ports:
+      - "6001:6001"
+    networks:
+      - bookstore-app-network
+    environment:
+      - SERVER_PORT=6001
+      - ZIPKIN_HOST=bookstore-zipkin:9411
+      - SPRING_PROFILES_ACTIVE=docker
+    deploy:
+      labels:
+        swarm.autoscaler: 'true'
+        swarm.autoscaler.maximum: '4'
+        swarm.autoscaler.minimum: '1'
+
+  bookstore-order-service:
+    build:
+      context: ./bookstore-order-service
+      args:
+        JAR_FILE: bookstore-order-service-0.0.1-SNAPSHOT.jar
+      dockerfile: Dockerfile
+    image: 127.0.0.1:5000/bookstore-order-service
+    container_name: bookstore-order-service
+    hostname: bookstore-order-service
+    ports:
+      - "7001:7001"
+    networks:
+      - bookstore-app-network
+    environment:
+      - SERVER_PORT=7001
+      - ZIPKIN_HOST=bookstore-zipkin:9411
+      - SPRING_PROFILES_ACTIVE=docker
+    deploy:
+      labels:
+        swarm.autoscaler: 'true'
+        swarm.autoscaler.maximum: '4'
+        swarm.autoscaler.minimum: '1'
+
+  bookstore-payment-service:
+    build:
+      context: ./bookstore-payment-service
+      args:
+        JAR_FILE: bookstore-payment-service-0.0.1-SNAPSHOT.jar
+      dockerfile: Dockerfile
+    image: 127.0.0.1:5000/bookstore-payment-service
+    container_name: bookstore-payment-service
+    hostname: bookstore-payment-service
+    ports:
+      - "8001:8001"
+    networks:
+      - bookstore-app-network
+    environment:
+      - SERVER_PORT=8001
+      - ZIPKIN_HOST=bookstore-zipkin:9411
+      - SPRING_PROFILES_ACTIVE=docker
+    deploy:
+      labels:
+        swarm.autoscaler: 'true'
+        swarm.autoscaler.maximum: '4'
+        swarm.autoscaler.minimum: '1'
+
+  # Tracing service
+  bookstore-zipkin:
+    image: openzipkin/zipkin
+    container_name: bookstore-zipkin
+    hostname: bookstore-zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - bookstore-app-network
+
+  # Monitoring Services
+  bookstore-prometheus:
+    build:
+      context: ./bookstore-prometheus
+      dockerfile: Dockerfile
+    image: 127.0.0.1:5000/bookstore-prometheus
+    container_name: bookstore-prometheus
+    hostname: bookstore-prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - bookstore-app-network
+
+  bookstore-grafana:
+    build:
+      context: ./bookstore-graphana
+      dockerfile: Dockerfile
+    image: 127.0.0.1:5000/graphana
+    container_name: bookstore-graphana
+    hostname: bookstore-graphana
+    ports:
+      - "3030:3000"
+    volumes:
+      - bookstore-graphana-volume:/var/lib/grafana
+    networks:
+      - bookstore-app-network
+
+  # Monitoring using TICK stack.
+  bookstore-telegraf:
+    build:
+      context: ./bookstore-telegraph
+      dockerfile: Dockerfile
+    image: 127.0.0.1:5000/bookstore-telegraf
+    container_name: bookstore-telegraf
+    user: telegraf:999
+    hostname: bookstore-telegraf
+    environment:
+      HOSTNAME: "bookstore-telegraf"
+    ports:
+      - "8125:8125/udp"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - bookstore-app-network
+
+  bookstore-influxdb:
+    image: influxdb:1.7.6
+    container_name: bookstore-influxdb
+    hostname: bookstore-influxdb
+    volumes:
+      - booksture-influxdb-volume:/var/lib/influxdb
+    ports:
+      - "8086:8086"
+    networks:
+      - bookstore-app-network
+
+  bookstore-chronograf:
+    image: chronograf:1.7.3
+    container_name: bookstore-chronograf
+    hostname: bookstore-chronograf
+    environment:
+      INFLUXDB_URL: http://bookstore-influxdb:8086
+      KAPACITOR_URL: http://bookstore-kapacitor:9092
+    volumes:
+      - booksture-chronograf-volume:/var/lib/chronograf
+    ports:
+      - "8888:8888"
+    restart: always
+    networks:
+      - bookstore-app-network
+
+  bookstore-kapacitor:
+    image: kapacitor
+    container_name: bookstore-kapacitor
+    hostname: bookstore-kapacitor
+    environment:
+      KAPACITOR_HOSTNAME: bookstore-kapacitor
+      KAPACITOR_INFLUXDB_0_URLS_0: http://bookstore-influxdb:8086
+    ports:
+      - "9092:9092"
+    networks:
+      - bookstore-app-network
+      
+  bookstore-scaphandre:
+    image: hubblo/scaphandre
+    privileged: true
+    ports: 
+      - "8080:8080"
+    volumes:
+      - type: bind
+        source: /proc
+        target: /proc
+      - type: bind
+        source: /sys/class/powercap
+        target: /sys/class/powercap
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    environment:
+      - SERVER_PORT=8080
+    command: ["prometheus", "--containers"]                        
+    networks:
+      - bookstore-app-network 
+
+volumes:
+  bookstore-db-volume:
+  bookstore-graphana-volume:
+  booksture-telegraph-volume:
+  booksture-influxdb-volume:
+  booksture-chronograf-volume:
+
+networks:
+  bookstore-app-network:
+    external: true
