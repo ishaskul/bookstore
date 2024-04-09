@@ -4,7 +4,6 @@ services:
   # Database
   bookstore-mysql-db:
     image: mysql:5.7
-    command: [ "--max_connections=10000" ]
     container_name: bookstore-mysql-db
     hostname: bookstore-mysql-db
     restart: always
@@ -15,6 +14,9 @@ services:
       MYSQL_ROOT_PASSWORD: "r00tPaSSworD"
 
       #Connection Pool
+      MYSQL_POOL_MAX_ACTIVE: '200'
+      MYSQL_POOL_MAX_WAIT: '5000'
+      MYSQL_POOL_MAX_IDLE: '20'
     ports:
       - "3306:3306"
     volumes:
@@ -75,8 +77,10 @@ services:
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
     deploy:
-      placement:
-        constraints: [node.role == manager]
+      labels:
+        swarm.autoscaler: 'true'
+        swarm.autoscaler.maximum: '4'
+        swarm.autoscaler.minimum: '2'
 
   bookstore-billing-service:
     build:
@@ -95,6 +99,11 @@ services:
       - SERVER_PORT=5001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+    deploy:
+      labels:
+        swarm.autoscaler: 'true'
+        swarm.autoscaler.maximum: '4'
+        swarm.autoscaler.minimum: '1'
 
   bookstore-catalog-service:
     build:
@@ -113,6 +122,11 @@ services:
       - SERVER_PORT=6001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+    deploy:
+      labels:
+        swarm.autoscaler: 'true'
+        swarm.autoscaler.maximum: '4'
+        swarm.autoscaler.minimum: '1'
 
   bookstore-order-service:
     build:
@@ -131,6 +145,11 @@ services:
       - SERVER_PORT=7001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+    deploy:
+      labels:
+        swarm.autoscaler: 'true'
+        swarm.autoscaler.maximum: '4'
+        swarm.autoscaler.minimum: '1'
 
   bookstore-payment-service:
     build:
@@ -149,109 +168,11 @@ services:
       - SERVER_PORT=8001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
-      
-  # Tracing service
-  bookstore-zipkin:
-    image: openzipkin/zipkin
-    container_name: bookstore-zipkin
-    hostname: bookstore-zipkin
-    environment:
-      - JAVA_OPTS=-Xms512m -Xmx10g
-    ports:
-      - "9411:9411"
-    networks:
-      - bookstore-app-network
-
-  # Monitoring Services
-  bookstore-prometheus:
-    build:
-      context: ./bookstore-prometheus
-      dockerfile: Dockerfile
-    image: 127.0.0.1:5000/bookstore-prometheus
-    container_name: bookstore-prometheus
-    hostname: bookstore-prometheus
-    ports:
-      - "9090:9090"
-    networks:
-      - bookstore-app-network
     deploy:
-      placement:
-        constraints: [node.role == manager]
-
-  bookstore-grafana:
-    build:
-      context: ./bookstore-graphana
-      dockerfile: Dockerfile
-    image: 127.0.0.1:5000/graphana
-    container_name: bookstore-graphana
-    hostname: bookstore-graphana
-    ports:
-      - "3030:3000"
-    volumes:
-      - bookstore-graphana-volume:/var/lib/grafana
-    networks:
-      - bookstore-app-network
-    deploy:
-      placement:
-        constraints: [node.role == manager]
-
-  # Monitoring using TICK stack.
-  bookstore-telegraf:
-    build:
-      context: ./bookstore-telegraph
-      dockerfile: Dockerfile
-    image: 127.0.0.1:5000/bookstore-telegraf
-    container_name: bookstore-telegraf
-    user: telegraf:999
-    hostname: bookstore-telegraf
-    environment:
-      HOSTNAME: "bookstore-telegraf"
-    ports:
-      - "8125:8125/udp"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - bookstore-app-network
-    deploy:
-      replicas: 3
-
-  bookstore-influxdb:
-    image: influxdb:1.7.6
-    container_name: bookstore-influxdb
-    hostname: bookstore-influxdb
-    volumes:
-      - booksture-influxdb-volume:/var/lib/influxdb
-    ports:
-      - "8086:8086"
-    networks:
-      - bookstore-app-network
-
-  bookstore-chronograf:
-    image: chronograf:1.7.3
-    container_name: bookstore-chronograf
-    hostname: bookstore-chronograf
-    environment:
-      INFLUXDB_URL: http://bookstore-influxdb:8086
-      KAPACITOR_URL: http://bookstore-kapacitor:9092
-    volumes:
-      - booksture-chronograf-volume:/var/lib/chronograf
-    ports:
-      - "8888:8888"
-    restart: always
-    networks:
-      - bookstore-app-network
-
-  bookstore-kapacitor:
-    image: kapacitor
-    container_name: bookstore-kapacitor
-    hostname: bookstore-kapacitor
-    environment:
-      KAPACITOR_HOSTNAME: bookstore-kapacitor
-      KAPACITOR_INFLUXDB_0_URLS_0: http://bookstore-influxdb:8086
-    ports:
-      - "9092:9092"
-    networks:
-      - bookstore-app-network
+      labels:
+        swarm.autoscaler: 'true'
+        swarm.autoscaler.maximum: '4'
+        swarm.autoscaler.minimum: '1'
 
 volumes:
   bookstore-db-volume:
