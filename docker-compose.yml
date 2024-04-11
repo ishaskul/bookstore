@@ -1,6 +1,58 @@
 version: "3.4"
 
+configs:
+  prometheus_config:
+    file: ./prometheus.yml
+
 services:
+  # Autoscaling
+  docker-swarm-autoscaler:
+    image: jcwimer/docker-swarm-autoscaler:0.1.0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - PROMETHEUS_URL=http://prometheus:9090
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 128M
+        reservations:
+          cpus: '0.10'
+          memory: 64M
+
+  cadvisor:
+    image: google/cadvisor:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+    deploy:
+      mode: global
+
+  prometheus:
+    image: prom/prometheus:v2.12.0
+    ports:
+      - "9090:9090"
+    command: ["--storage.tsdb.retention.size=1GB", "--config.file=/etc/prometheus/prometheus.yml", "--web.console.libraries=/etc/prometheus/console_libraries", "--web.console.templates=/etc/prometheus/consoles", "--web.enable-lifecycle"]
+    configs:
+       - source: prometheus_config
+         target: /etc/prometheus/prometheus.yml
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+
   # Database
   bookstore-mysql-db:
     image: mysql:5.7
@@ -77,6 +129,10 @@ services:
     deploy:
       placement:
         constraints: [node.role == manager]
+      labels:
+        swarm.autoscaler: 'true'
+        swarm.autoscaler.maximum: '4'
+        swarm.autoscaler.minimum: '1'
 
   bookstore-billing-service:
     build:
@@ -95,6 +151,11 @@ services:
       - SERVER_PORT=5001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+    deploy:
+      labels:
+        swarm.autoscaler: 'true'
+        swarm.autoscaler.maximum: '4'
+        swarm.autoscaler.minimum: '1'
 
   bookstore-catalog-service:
     build:
@@ -113,6 +174,11 @@ services:
       - SERVER_PORT=6001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+    deploy:
+      labels:
+        swarm.autoscaler: 'true'
+        swarm.autoscaler.maximum: '4'
+        swarm.autoscaler.minimum: '1'
 
   bookstore-order-service:
     build:
@@ -131,6 +197,11 @@ services:
       - SERVER_PORT=7001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+    deploy:
+      labels:
+        swarm.autoscaler: 'true'
+        swarm.autoscaler.maximum: '4'
+        swarm.autoscaler.minimum: '1'
 
   bookstore-payment-service:
     build:
@@ -149,6 +220,11 @@ services:
       - SERVER_PORT=8001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+    deploy:
+      labels:
+        swarm.autoscaler: 'true'
+        swarm.autoscaler.maximum: '4'
+        swarm.autoscaler.minimum: '1'
       
   # Tracing service
   bookstore-zipkin:
@@ -161,39 +237,6 @@ services:
       - "9411:9411"
     networks:
       - bookstore-app-network
-
-  # Monitoring Services
-  bookstore-prometheus:
-    build:
-      context: ./bookstore-prometheus
-      dockerfile: Dockerfile
-    image: 127.0.0.1:5000/bookstore-prometheus
-    container_name: bookstore-prometheus
-    hostname: bookstore-prometheus
-    ports:
-      - "9090:9090"
-    networks:
-      - bookstore-app-network
-    deploy:
-      placement:
-        constraints: [node.role == manager]
-
-  bookstore-grafana:
-    build:
-      context: ./bookstore-graphana
-      dockerfile: Dockerfile
-    image: 127.0.0.1:5000/graphana
-    container_name: bookstore-graphana
-    hostname: bookstore-graphana
-    ports:
-      - "3030:3000"
-    volumes:
-      - bookstore-graphana-volume:/var/lib/grafana
-    networks:
-      - bookstore-app-network
-    deploy:
-      placement:
-        constraints: [node.role == manager]
 
   # Monitoring using TICK stack.
   bookstore-telegraf:

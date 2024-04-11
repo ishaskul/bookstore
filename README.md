@@ -1,17 +1,7 @@
 # BookStoreApp-Distributed-Application
-<hr>
 
 ## About this project
-This is an Ecommerce project still `development in progress`, where users can adds books to the cart and buy those books.
-
-Application is being developed using Java, Spring and React.
-
-Using Spring Cloud Microservices and Spring Boot Framework extensively to make this application distributed. 
-
-<hr>
-
-## Frontend Checkout Flow
-![CheckOutFlow](https://user-images.githubusercontent.com/14878408/103235826-06d5ca00-4969-11eb-87c8-ce618034b4f3.gif)
+This is an Ecommerce project where users can adds books to the cart and buy those books.
 
 ## Architecture
 All the Microservices are developed using spring boot. 
@@ -22,8 +12,6 @@ NGINX server redirects the requests to Zuul API Gateway.
 
 Zuul will route the requests to microservice
 based on the url route. Zuul also registers with eureka and gets the ip/domain from eureka for microservice while routing the request. 
-
-<hr>
 
 ## Run front-end app
 
@@ -80,41 +68,36 @@ While running using docker, consul is the service discovery.
 
 Reason to use Consul is it has better features and support compared to Eureka. Running services individually in local uses Eureka as service discovery because dont want to run consul agent and set it up as it becomes extra overhead to manage. Since docker-compose manages all consul stuff hence using Consul while running services in docker.
 
-## Monitoring
-There are 2 setups for monitoring
-
-1. Prometheus, Scaphandre and Graphana.
-2. TICK stack monitoring.
-
-Both the setups are very powerful, where prometheus works on pull model. we have to provide target hosts where the prometheus can pull the metrics from. If we specify target hosts using individual hostname/ip its not feasible at end because it will be like hard coded hostnames/ip. So we use Consul discovery to provide target hosts dynamically. By this way when more instances added for same service no need to worry about adding to prometheus target hosts because consul will dynamically add this target in prometheus.
+## TICK stack monitoring.
 
 TICK(Telegraf, InfluxDB, Chronograf, Kapacitor) This setup is getting more attention due to its push and pull model. InfluxDB is a time series database, bookstore services push the metrics to influxDB(push model), In Telegraf we specify the targets to pull metrics(pull model). Chronograf/Graphana can be used to view the graph/charts. Kapacitor is used to configure rules for alarms.
 
-`docker-compose` will take care of bringing all this monitoring containers up.
+Deploying with `docker-compose.yml` will take care of bringing all this monitoring containers up.
 
-Dashboards are available at below ports
+## Port Configurations
 
-```
-Prometheus : 9090
-Scaphandre : 8080
-Graphana   : 3030
+### Business Logic
+| Service    | Port |
+| --------   | -----|
+| Account    | 4001 |
+| Billing    | 5001 |
+| Catalog    | 6001 |
+| Order      | 7001 |
+| Payment    | 8001 |
 
-Zipkin     : 9411
+### Administrative
+| Service    | Port |
+| --------   | -----|
+| MySQL      | 3306 |
+| Consul     | 8500 |
+| Zuul       | 8765 |
+| Telegraf   | 8125 |
+| Zipkin     | 9411 |
+| InfluxDB   | 8086 |
+| Chronograf | 8888 |
+| Kapacitor  | 9092 |
 
-Telegraf   : 8125
-InfluxDb   : 8086
-Chronograf : 8888
-Kapacitor  : 9092 
 
-```
-
-```
-First time login to Graphana use below credentials
-
-Username : admin  
-Password : admin
-
-```
 
 > Account Service
 
