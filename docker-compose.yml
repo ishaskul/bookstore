@@ -5,7 +5,7 @@ services:
   # Database
   bookstore-mysql-db:
     image: mysql:5.7
-    command: [ "--max_connections=10000" ]
+    command: [ "--max_connections=30000" ]
     container_name: bookstore-mysql-db
     hostname: bookstore-mysql-db
     restart: always
