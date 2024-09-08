@@ -24,7 +24,8 @@ services:
       - bookstore-app-network
     deploy:
       placement:
-        - spread: node.hostname      
+        preferences:
+          - spread: node.hostname      
 
   # Core services
   bookstore-consul-discovery:
@@ -80,7 +81,8 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     deploy:
       placement:
-        - spread: node.hostname
+        preferences:
+          - spread: node.hostname
       labels:
         swarm.autoscaler: 'true'
         swarm.autoscaler.maximum: '4'
@@ -105,7 +107,8 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     deploy:
       placement:
-        - spread: node.hostname  
+        preferences:
+          - spread: node.hostname  
       labels:
         swarm.autoscaler: 'true'
         swarm.autoscaler.maximum: '4'
@@ -130,7 +133,8 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     deploy:
       placement:
-        - spread: node.hostname      
+        preferences:
+          - spread: node.hostname      
       labels:
         swarm.autoscaler: 'true'
         swarm.autoscaler.maximum: '4'
@@ -155,7 +159,8 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     deploy:
       placement:
-        - spread: node.hostname      
+        preferences:
+          - spread: node.hostname      
       labels:
         swarm.autoscaler: 'true'
         swarm.autoscaler.maximum: '4'
@@ -180,7 +185,8 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     deploy:
       placement:
-        - spread: node.hostname      
+        preferences:
+          - spread: node.hostname      
       labels:
         swarm.autoscaler: 'true'
         swarm.autoscaler.maximum: '4'
@@ -199,7 +205,8 @@ services:
       - bookstore-app-network
     deploy:
       placement:
-        - spread: node.hostname      
+        preferences:
+          - spread: node.hostname      
 
   # Monitoring using TICK stack.
   bookstore-telegraf:
@@ -220,7 +227,8 @@ services:
       - bookstore-app-network
     deploy:
       placement:
-        - spread: node.hostname      
+        preferences:
+          - spread: node.hostname     
       replicas: 3
 
   bookstore-influxdb:
@@ -235,7 +243,8 @@ services:
       - bookstore-app-network
     deploy:
       placement:
-        - spread: node.hostname      
+        preferences:
+          - spread: node.hostname      
 
   bookstore-chronograf:
     image: chronograf:1.7.3
@@ -253,7 +262,8 @@ services:
       - bookstore-app-network
     deploy:
       placement:
-        - spread: node.hostname      
+        preferences:
+          - spread: node.hostname     
 
   bookstore-kapacitor:
     image: kapacitor
@@ -268,7 +278,8 @@ services:
       - bookstore-app-network
     deploy:
       placement:
-        - spread: node.hostname      
+        preferences:
+          - spread: node.hostname      
 
 volumes:
   bookstore-db-volume:
