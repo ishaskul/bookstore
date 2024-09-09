@@ -1,0 +1,7 @@
+hostname,container_name,pid
+gl6,bs_bookstore-telegraf.2.r9e5c18ye5dob5spfor7pcxfn,3012709
+gl6,bs_bookstore-catalog-service.1.i0qn155xkplcbn7b9hg8yip5c,3012244
+gl6,bs_bookstore-payment-service.1.uccqfeoge3x0l9b3g4rj4x59b,3012026
+gl6,registry.1.tfo7bhxfxlwy96aq5ibdwcf3d,3011391
+gl6,bs_bookstore-mysql-db.1.dm2w695udlijkop2y1jqx8yw4,2969722
+gl6,bs_bookstore-influxdb.1.wp5l6cc7tif96aygyobskjic4,2969385
