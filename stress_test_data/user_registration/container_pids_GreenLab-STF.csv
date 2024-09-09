@@ -1,0 +1,5 @@
+hostname,container_name,pid
+GreenLab-STF,bs_bookstore-telegraf.1.vamcbvnmbdwd862vxn2iwaato,780875
+GreenLab-STF,bs_bookstore-zuul-api-gateway-server.1.oxm5vuaqnqf6k5x4pgqgdjnd5,780012
+GreenLab-STF,bs_bookstore-account-service.1.0ftv0zf1xgymefs53hxud3nj5,779922
+GreenLab-STF,bs_bookstore-consul-discovery.1.pd1oz5ybguctx60oer9uklmab,687287
