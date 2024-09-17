@@ -98,7 +98,9 @@ if __name__ == "__main__":
     start_time_in_iso_format = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
     end_time = start_time + timedelta(seconds=cool_down_time + 30)
     end_time_in_iso_format = end_time.strftime('%Y-%m-%dT%H:%M:%SZ')
-    trigger_github_workflow("<Github-PAT-Token>","ishaskul","gatling-simulations-bs-sn","116115030","main",scenario,no_of_users, ramp_up_duration, "test_users.csv")
+    #GITHUB Personal Access Token (PAT) is stored as a linux environment variable by running : export GITHUB_PAT="<my-token>"
+    #The PAT is retrieved below using the os module
+    trigger_github_workflow(os.getenv('GITHUB_PAT'),"ishaskul","gatling-simulations-bs-sn","116115030","main",scenario,no_of_users, ramp_up_duration, "all_users.csv")
     run_system_measurements(output_folder_path)
     time.sleep(5)
     wait_until(ramp_up_duration + cool_down_time)
