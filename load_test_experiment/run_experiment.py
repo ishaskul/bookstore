@@ -93,7 +93,7 @@ if __name__ == "__main__":
     if not os.path.exists(output_folder_path):
         os.makedirs(output_folder_path)
     servers = ['gl2','gl5','gl6']
-    cool_down_time = 20
+    cool_down_time = 240
     start_time = datetime.now(timezone.utc)
     start_time_in_iso_format = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
     end_time = start_time + timedelta(seconds=cool_down_time + 30)
