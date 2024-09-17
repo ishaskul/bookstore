@@ -68,11 +68,10 @@ def run_promethues_queries_for_app(app, servers, start_time, end_time, output_fo
         power_consumption_query = f"{data[app]['power_consumption'][server]}&start={start_time}&end={end_time}&step=15s"
         power_consumption_query_url_encoded = quote(power_consumption_query, safe='=&')
         power_consumption_url = f"http://145.108.225.7:9090/api/v1/query_range?query={power_consumption_query_url_encoded}"
-        print(f"getting cpu utilization per container for {app} - {server}")
+        print(f"getting power consumption per container for {app} - {server}")
         run_promethues_query(power_consumption_url, f"{output_folder_path}/power_consumption_data/per_container_power_consumption_{server}_{get_current_timestamp()}.json")
 
 def run_promethues_query(url, output_file):
-    print("prometheus_url: ", url)
     response = requests.get(url)
     if response.status_code == 200:
             data = response.json()
