@@ -5,7 +5,7 @@ fi
 
 HOSTNAME=$(hostname)
 OUTPUT_DIR=$1
-OUTPUT_FILE="$OUTPUT_DIR/cpu_usage_output_${HOSTNAME}_$(date +'%Y%m%d_%H%M%S').txt"
+OUTPUT_FILE="$OUTPUT_DIR/cpu_usage_output_${HOSTNAME}_$(date -u +'%Y%m%d_%H%M%S').txt"
 mkdir -p "$OUTPUT_DIR"
 
 # output cpu util every 15 seconds until 8 minutes
