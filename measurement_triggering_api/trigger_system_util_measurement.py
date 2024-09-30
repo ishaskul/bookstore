@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import subprocess
 import os
+import socket
 
 app = Flask(__name__)
 
@@ -25,8 +26,12 @@ def measure():
     absolute_output_path = f"~/bookstore/load_test_experiment{output_folder.lstrip('.')}"
 
     run_system_measurements(absolute_output_path)
+    hostname = socket.gethostname()
     
-    return jsonify({"message": f"Measurement scripts triggered successfully! Generating data at path : {absolute_output_path}"}), 200
+    return jsonify({
+        "message": f"Measurement scripts triggered successfully! Generating data at path: {absolute_output_path}",
+        "hostname": hostname
+    }), 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=9119)
