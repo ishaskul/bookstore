@@ -115,7 +115,15 @@ ADMIN, NORMAL USER
 Admin 
 userName: 'admin.admin'
 password: 'admin.devd123'
+
 ```
+
+## Issue
+
+The issue was that microservices in nodes gl2 and gl6 couldn't communicate with services in gl5 in the Docker Swarm cluster because gl5 was blocking TCP connections on port 7946. This port is critical for Docker Swarm's internal communication. The problem was resolved by explicitly allowing traffic on port 7946 (TCP) and port 4789 (UDP) on gl5 using iptables commands, restoring proper communication between all nodes in the swarm : 
+sudo iptables -A INPUT -p tcp -m tcp --dport 7946 -j ACCEPT
+sudo iptables -A INPUT -p udp -m udp --dport 4789 -j ACCEPT
+
 
 ```
 Normal User 
