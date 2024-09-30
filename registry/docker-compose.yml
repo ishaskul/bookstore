@@ -1,0 +1,28 @@
+services:
+  registry:
+    restart: always
+    image: registry:2
+    ports:
+      - 5000:5000
+    volumes:
+      - type: volume
+        source: registry.library
+        target: /var/lib/registry
+        volume:
+          nocopy: true
+    networks:
+      - web
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+volumes:
+  registry.library:
+    driver: local
+    driver_opts:
+      type: none
+      device: /data/docker/registry/library
+      o: bind
+
+networks:
+  web:

@@ -19,18 +19,24 @@ services:
         aliases:
           - bookstore-mysql-db
     ports:
-      - "3306:3306"
+      - target: 3306    # Port inside the container
+        published: 3306  # Port exposed on the host
+        protocol: tcp
+        mode: host       # Host mode
     deploy:
       placement:
         constraints:
           - node.hostname == gl6
 
-  # Core services
+  # Service Discovery
   bookstore-consul-discovery:
     image: hashicorp/consul
     restart: always
     ports:
-      - "8500:8500"
+      - target: 8500
+        published: 8500
+        protocol: tcp
+        mode: host
     networks:
       bookstore-app-network_ishas:
         aliases:
@@ -39,6 +45,7 @@ services:
       placement:
         constraints: [node.role == manager]
 
+  # API Gateway
   bookstore-zuul-api-gateway-server:
     build:
       context: ./bookstore-api-gateway-service
@@ -47,20 +54,24 @@ services:
       dockerfile: Dockerfile
     image: docker.bookstore.com:5000/bookstore-zuul-api-gateway-server
     ports:
-      - "8765:8765"
+      - target: 8765
+        published: 8765
+        protocol: tcp
+        mode: host
     networks:
       bookstore-app-network_ishas:
         aliases:
           - bookstore-zuul-api-gateway-server
     environment:
       - SERVER_PORT=8765
-      - ZIPKIN_HOST=bookstore-zipkin:9411
+      - ZIPKIN_HOST=145.108.225.17:9411
       - SPRING_PROFILES_ACTIVE=docker
     deploy:
-      replicas: 3
+      replicas: 1
       placement:
         constraints: [node.role == manager]
 
+  # Account Service
   bookstore-account-service:
     build:
       context: ./bookstore-account-service
@@ -69,14 +80,17 @@ services:
       dockerfile: Dockerfile
     image: docker.bookstore.com:5000/bookstore-account-service
     ports:
-      - "4001:4001"
+      - target: 4001
+        published: 4001
+        protocol: tcp
+        mode: host
     networks:
       bookstore-app-network_ishas:
         aliases:
           - bookstore-account-service
     environment:
       - SERVER_PORT=4001
-      - ZIPKIN_HOST=bookstore-zipkin:9411
+      - ZIPKIN_HOST=145.108.225.17:9411
       - SPRING_PROFILES_ACTIVE=docker
     deploy:
       mode: global
@@ -85,6 +99,7 @@ services:
         swarm.autoscaler.maximum: '4'
         swarm.autoscaler.minimum: '1'
 
+  # Billing Service
   bookstore-billing-service:
     build:
       context: ./bookstore-billing-service
@@ -93,14 +108,17 @@ services:
       dockerfile: Dockerfile
     image: docker.bookstore.com:5000/bookstore-billing-service
     ports:
-      - "5001:5001"
+      - target: 5001
+        published: 5001
+        protocol: tcp
+        mode: host
     networks:
       bookstore-app-network_ishas:
         aliases:
           - bookstore-billing-service
     environment:
       - SERVER_PORT=5001
-      - ZIPKIN_HOST=bookstore-zipkin:9411
+      - ZIPKIN_HOST=145.108.225.17:9411
       - SPRING_PROFILES_ACTIVE=docker
     deploy:
       mode: global
@@ -109,6 +127,7 @@ services:
         swarm.autoscaler.maximum: '4'
         swarm.autoscaler.minimum: '1'
 
+  # Catalog Service
   bookstore-catalog-service:
     build:
       context: ./bookstore-catalog-service
@@ -117,14 +136,17 @@ services:
       dockerfile: Dockerfile
     image: docker.bookstore.com:5000/bookstore-catalog-service
     ports:
-      - "6001:6001"
+      - target: 6001
+        published: 6001
+        protocol: tcp
+        mode: host
     networks:
       bookstore-app-network_ishas:
         aliases:
           - bookstore-catalog-service
     environment:
       - SERVER_PORT=6001
-      - ZIPKIN_HOST=bookstore-zipkin:9411
+      - ZIPKIN_HOST=145.108.225.17:9411
       - SPRING_PROFILES_ACTIVE=docker
     deploy:
       mode: global
@@ -133,6 +155,7 @@ services:
         swarm.autoscaler.maximum: '4'
         swarm.autoscaler.minimum: '1'
 
+  # Order Service
   bookstore-order-service:
     build:
       context: ./bookstore-order-service
@@ -141,14 +164,17 @@ services:
       dockerfile: Dockerfile
     image: docker.bookstore.com:5000/bookstore-order-service
     ports:
-      - "7001:7001"
+      - target: 7001
+        published: 7001
+        protocol: tcp
+        mode: host
     networks:
       bookstore-app-network_ishas:
         aliases:
           - bookstore-order-service
     environment:
       - SERVER_PORT=7001
-      - ZIPKIN_HOST=bookstore-zipkin:9411
+      - ZIPKIN_HOST=145.108.225.17:9411
       - SPRING_PROFILES_ACTIVE=docker
     deploy:
       mode: global
@@ -157,6 +183,7 @@ services:
         swarm.autoscaler.maximum: '4'
         swarm.autoscaler.minimum: '1'
 
+  # Payment Service
   bookstore-payment-service:
     build:
       context: ./bookstore-payment-service
@@ -165,14 +192,17 @@ services:
       dockerfile: Dockerfile
     image: docker.bookstore.com:5000/bookstore-payment-service
     ports:
-      - "8001:8001"
+      - target: 8001
+        published: 8001
+        protocol: tcp
+        mode: host
     networks:
       bookstore-app-network_ishas:
         aliases:
           - bookstore-payment-service
     environment:
       - SERVER_PORT=8001
-      - ZIPKIN_HOST=bookstore-zipkin:9411
+      - ZIPKIN_HOST=145.108.225.17:9411
       - SPRING_PROFILES_ACTIVE=docker
     deploy:
       mode: global
@@ -181,13 +211,16 @@ services:
         swarm.autoscaler.maximum: '4'
         swarm.autoscaler.minimum: '1'
 
-  # Tracing service
+  # Tracing Service
   bookstore-zipkin:
     image: openzipkin/zipkin
     environment:
       - JAVA_OPTS=-Xms512m -Xmx10g
     ports:
-      - "9411:9411"
+      - target: 9411
+        published: 9411
+        protocol: tcp
+        mode: host
     networks:
       bookstore-app-network_ishas:
         aliases:
@@ -197,7 +230,7 @@ services:
         constraints:
           - node.hostname == gl6
 
-  # Monitoring using TICK stack.
+  # Monitoring using TICK stack
   bookstore-telegraf:
     build:
       context: ./bookstore-telegraph
@@ -207,7 +240,10 @@ services:
     environment:
       HOSTNAME: "bookstore-telegraf"
     ports:
-      - "8125:8125/udp"
+      - target: 8125
+        published: 8125
+        protocol: udp
+        mode: host
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
@@ -217,12 +253,16 @@ services:
     deploy:
       replicas: 3
 
+  # InfluxDB
   bookstore-influxdb:
     image: influxdb:1.7.6
     volumes:
       - bookstore-influxdb-volume:/var/lib/influxdb
     ports:
-      - "8086:8086"
+      - target: 8086
+        published: 8086
+        protocol: tcp
+        mode: host
     networks:
       bookstore-app-network_ishas:
         aliases:
@@ -232,32 +272,44 @@ services:
         constraints:
           - node.hostname == gl5    
 
+  # Chronograf
   bookstore-chronograf:
     image: chronograf:1.7.3
     environment:
       INFLUXDB_URL: http://145.108.225.16:8086
-      KAPACITOR_URL: http://145.108.225.16:9092
+      KAPACITOR_URL: http://145.108.225.17:9092
     volumes:
       - bookstore-chronograf-volume:/var/lib/chronograf
     ports:
-      - "8888:8888"
+      - target: 8888
+        published: 8888
+        protocol: tcp
+        mode: host
     restart: always
     networks:
       bookstore-app-network_ishas:
         aliases:
           - bookstore-chronograf
 
+  # Kapacitor
   bookstore-kapacitor:
     image: kapacitor
     environment:
       KAPACITOR_HOSTNAME: bookstore-kapacitor
       KAPACITOR_INFLUXDB_0_URLS_0: http://145.108.225.16:8086
     ports:
-      - "9092:9092"
+      - target: 9092
+        published: 9092
+        protocol: tcp
+        mode: host
     networks:
       bookstore-app-network_ishas:
         aliases:
           - bookstore-kapacitor
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == gl6
 
 volumes:
   bookstore-db-volume:

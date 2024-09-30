@@ -41,7 +41,7 @@ spring:
   profiles: docker
   cloud:
     consul:
-      host: bookstore-consul-discovery
+      host: 145.108.225.7
       port: 8500
       discovery:
         instanceId: ${spring.application.name}:${random.value}
@@ -58,7 +58,7 @@ management:
         port: 8125
       influx: #pushing influx metrics.
         db: bookstore_influxdb_monitoring_metrics
-        uri: http://bookstore-influxdb:8086
+        uri: http://145.108.225.16:8086
         auto-create-db: true
   endpoints:
     web:

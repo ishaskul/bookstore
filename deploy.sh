@@ -28,13 +28,15 @@ done
 shift $((OPTIND -1))
 
 # Step 0: Delete previous registry if it exists
-docker service rm registry >/dev/null 2>&1
+# docker service rm registry >/dev/null 2>&1
 
-# Step 1: Run disposable registry
-docker service create --name registry --publish published=5000,target=5000 registry:2
+# # Step 1: Run disposable registry
+# docker service create --name registry --publish published=5000,target=5000 registry:2
 
 # Step 2: Create network
-docker network create --driver overlay bookstore-app-network
+if ! docker network ls | grep -q "bookstore-app-network_ishas"; then
+    docker network create --driver overlay bookstore-app-network_ishas
+fi
 
 # Step 3: Build and push docker images
 docker compose build --push
