@@ -112,20 +112,20 @@ if __name__ == "__main__":
         print(end_time_in_iso_format)
 
         # Trigger GitHub workflow
-        # response = trigger_github_workflow(
-        #     os.getenv('GITHUB_PAT'),
-        #     "ishaskul",
-        #     "gatling-simulations-bs-sn",
-        #     "116115030",
-        #     "main",
-        #     scenario,
-        #     no_of_users,
-        #     ramp_up_duration,
-        #     "all_users.csv"
-        # )
-        # print(response)
+        response = trigger_github_workflow(
+            os.getenv('GITHUB_PAT'),
+            "ishaskul",
+            "gatling-simulations-bs-sn",
+            "116115030",
+            "main",
+            scenario,
+            no_of_users,
+            ramp_up_duration,
+            "all_users.csv"
+        )
+        print(response)
 
         profile_system_resource_utilization_measurements(data_output_folder_path)
         time.sleep(5)
         wait_until(ramp_up_duration + cool_down_time)
-        # run_promethues_queries_for_app(app, servers, start_time_in_iso_format, end_time_in_iso_format, data_output_folder_path)
+        run_promethues_queries_for_app(app, servers, start_time_in_iso_format, end_time_in_iso_format, data_output_folder_path)
