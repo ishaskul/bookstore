@@ -10,27 +10,13 @@ import csv
 def transform_system_cpu_data_per_server_per_iteration(input_base_dir,output_base_dir, system_cpu_output_path ):
     if not os.path.exists(output_base_dir):
         os.makedirs(output_base_dir)
-
-    # Loop through each folder (1 to 10)
     for i in range(1, 11):
         input_dir = os.path.join(input_base_dir, str(i), system_cpu_output_path)
-
-        # Loop through each server machine
         for machine in green_lab_machines:
-            # Get the file matching the 'cpu_usage_output_{machine}_*.txt' pattern
             file_pattern = os.path.join(input_dir, f'cpu_usage_output_{machine}_*.txt')
             files = glob.glob(file_pattern)
-            
-            # Ensure there's at least one file
-            if not files:
-                print(f"No files found for {machine} in {input_dir}")
-                continue
-
-            # Process each file found
             for input_file in files:
                 output_file = os.path.join(output_base_dir, machine, system_cpu_output_path, f'cpu_usage_output_{machine}_it_{i}.csv')
-
-                # Read from the input text file and write to the CSV file
                 with open(input_file, 'r') as file:
                     lines = file.readlines()
 
@@ -97,12 +83,9 @@ def generate_pid_conatiner_name_mapping_from_data(input_base_dir, resource_util_
         else:
             machine_name = machine
         container_pid_mapping[machine_name] = {}
-        
-        # Get the JSON files for the machine
         file_pattern = os.path.join(input_dir, f'per_container_{resource_type}_{machine_name}_*.json')
         files = glob.glob(file_pattern)
 
-        # Iterate over files and extract relevant data
         for input_file in files:
             with open(input_file, 'r') as json_file:
                 data = json.load(json_file)
@@ -140,10 +123,7 @@ def generate_pid_conatiner_name_mapping_from_data(input_base_dir, resource_util_
                     # Generate an iterative identifier if multiple replicas are present
                     count = 1
                     container_name = f"{container_name_prefix}_replica_{count}"
-                    
-                    # get a list of existing containers for a given server machine
                     existing_containers = [value for value in container_pid_mapping[machine_name].values()]
-                    # Increment the count if the container with the same prefix already exists in another PID
                     while container_name in existing_containers:
                         count += 1
                         container_name = f"{container_name_prefix}_replica_{count}"
