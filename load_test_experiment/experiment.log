@@ -1,0 +1,281 @@
+nohup: ignoring input
+    %%  TToottaall        %%  RReecceeiivveedd  %%  XXffeerrdd    AAvveerraaggee  SSppeeeedd      TTiimmee        TTiimmee          TTiimmee    CCuurrrreenntt
+
+                                                                  DDllooaadd    UUppllooaadd      TToottaall      SSppeenntt        LLeefftt    SSppeeeedd
+
+    00          00        00          00        00          00            00            00  ----::----::----  ----::----::----  ----::----::----          00100   194  100   153  100    41  38278  10257 --:--:-- --:--:-- --:--:-- 64666
+{"hostname":"gl5","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/1"}
+100   194  100   153  100    41  29344   7863 --:--:-- --:--:-- --:--:-- 38800
+{"hostname":"gl6","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/1"}
+  % Total     %  %R eTcoetiavle d   %  %X fReercde i vAevde r%a gXef eSrpde e dA v e rTaigmee  S p e eTdi m e  T i m e  T i m eT i mCeu r r e n tT
+i m e     C u r r e n t 
+                                          D l o a d     U p l o a dD l o aTdo t aUlp l o aSdp e n tT o t a lL e f tS p eSnpte e d 
+ Left    0S p e e d 
+0      00          00        00          00         0  0        0    0   - - :0- - : - -   -0- :----::----: ---- :----::----: - -   - -0:--:--     0100   194  100   153  100    41   8578   2298 --:--:-- --:--:-- --:--:-- 11411
+{"hostname":"gl5","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/2"}
+100   194  100   153  100    41   7891   2114 --:--:-- --:--:-- --:--:-- 10210
+{"hostname":"gl6","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/2"}
+Powerstat output saved to ./buy_books_new_run/1/power_consumption_data/powerstat_output_GreenLab-STF_20241004_214616.txt
+CPU UTILIZATION OUTPUT SAVED TO: ./buy_books_new_run/1/system_cpu_data/cpu_usage_output_GreenLab-STF_20241004_214616.txt
+    %%  TToottaall        %%  RReecceeiivveedd  %%  XXffeerrdd    AAvveerraaggee  SSppeeeedd      TTiimmee        TTiimmee          TTime  Curreinmte
+    C u r r e  n t 
+                                              D l o a d     U p l oDaldo a d  T oUtpallo a d  S p eTnott a l    L eSfpte n tS p e e dL
+eft    0S p e e d 
+0      00          00        00          00        0    0      0      0   - -0: - - : - -  0- --:--:--:--:-- -- --:--:--:--:-- -   - - :0--:--     0100   194  100   153  100    41  35115   9410 --:--:-- --:--:-- --:--:-- 48500
+{"hostname":"gl5","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/3"}
+100   194  100   153  100    41  30753   8241 --:--:-- --:--:-- --:--:-- 48500
+{"hostname":"gl6","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/3"}
+CPU UTILIZATION OUTPUT SAVED TO: ./buy_books_new_run/2/system_cpu_data/cpu_usage_output_GreenLab-STF_20241004_215522.txt
+Powerstat output saved to ./buy_books_new_run/2/power_consumption_data/powerstat_output_GreenLab-STF_20241004_215522.txt
+    %%  TToottaall        %%  RReecceeiivveedd  %%  XXffeerrdd    AAvveerraaggee  SSppeeeedd      TTiimmee        TTiimmee          TTiimmee    CCuurrrreenntt
+
+                                                                  DDllooaadd    UUppllooaadd      TToottaall      SSppeenntt        LLeefftt    SSppeeeedd
+
+    00          00        00          00        00          00            00            00  ----::----::----  ----::----::----  ----::----::----          00100   194  100   153  100    41  35589   9537 --:--:-- --:--:-- --:--:-- 48500
+{"hostname":"gl5","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/4"}
+100   194  100   153  100    41  29923   8018 --:--:-- --:--:-- --:--:-- 38800
+{"hostname":"gl6","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/4"}
+CPU UTILIZATION OUTPUT SAVED TO: ./buy_books_new_run/3/system_cpu_data/cpu_usage_output_GreenLab-STF_20241004_220428.txt
+Powerstat output saved to ./buy_books_new_run/3/power_consumption_data/powerstat_output_GreenLab-STF_20241004_220428.txt
+    %%  TToottaall        %%  RReecceeiivveedd  %%  XXffeerrdd    AAvveerraaggee  SSppeeeedd      TTiimmee        TTiimmee          TTiimmee    CCuurrrreenntt
+
+                                                                  DDllooaadd    UUppllooaadd      TToottaall      SSppeenntt        LLeefftt    SSppeeeedd
+
+    00          00        00          00        00          00            00            00  ----::----::----  ----::----::----  ----::----::----          00100   194  100   153  100    41  33857   9072 --:--:-- --:--:-- --:--:-- 48500
+{"hostname":"gl5","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/5"}
+100   194  100   153  100    41  30058   8055 --:--:-- --:--:-- --:--:-- 38800
+{"hostname":"gl6","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/5"}
+Powerstat output saved to ./buy_books_new_run/4/power_consumption_data/powerstat_output_GreenLab-STF_20241004_221334.txt
+CPU UTILIZATION OUTPUT SAVED TO: ./buy_books_new_run/4/system_cpu_data/cpu_usage_output_GreenLab-STF_20241004_221334.txt
+  % Total    % Received % Xferd  Average Speed   Time      T%i mTe  o t a lT i m e  %  CRuercreeinvte
+d   %   X f e r d     A v e r a g e   S p e e d       T i m e      D lToiamde    U p l oTaidm e    TCoutralr e n tS
+p e n t         L e f t     S p e e d 
+       0           0      D l0o a d     U0p l o a d0      T o t0a l       S p0e n t        0L e-f-t: - -S:p-e-e d-
+-:- - :0- -   - - :0- - : - -0          00    0     0      0      0 --:--:-- --:--:-- --:--:--     0100   194  100   153  100    41  44347  11884 --:--:-- --:--:-- --:--:-- 64666
+{"hostname":"gl5","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/6"}
+100   194  100   153  100    41  31618   8472 --:--:-- --:--:-- --:--:-- 48500
+{"hostname":"gl6","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/6"}
+CPU UTILIZATION OUTPUT SAVED TO: ./buy_books_new_run/5/system_cpu_data/cpu_usage_output_GreenLab-STF_20241004_222240.txt
+Powerstat output saved to ./buy_books_new_run/5/power_consumption_data/powerstat_output_GreenLab-STF_20241004_222240.txt
+    %%  TToottaall        %%  RReecceeiivveedd  %%  XXffeerrdd    AAvveerraaggee  SSppeeeedd      TTiimmee        TTiimmee          TTiimmee    CCuurrrreenntt
+
+                                                                  DDllooaadd    UUppllooaadd      TToottaall      SSppeenntt        LLeefftt    SSppeeeedd
+
+    00          00        00          00        00          00            00            00  ----::----::----  ----::----::----  ----::----::----          00100   194  100   153  100    41  41474  11114 --:--:-- --:--:-- --:--:-- 64666
+{"hostname":"gl5","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/7"}
+100   194  100   153  100    41  31110   8336 --:--:-- --:--:-- --:--:-- 48500
+{"hostname":"gl6","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/7"}
+CPU UTILIZATION OUTPUT SAVED TO: ./buy_books_new_run/6/system_cpu_data/cpu_usage_output_GreenLab-STF_20241004_223146.txt
+Powerstat output saved to ./buy_books_new_run/6/power_consumption_data/powerstat_output_GreenLab-STF_20241004_223146.txt
+2024-10-04T21:46:16Z
+2024-10-04T21:55:46Z
+<Response [204]>
+Processing server: gl2
+getting cpu utilization per container for bookstore - gl2
+Query result for ./buy_books_new_run/1/system_cpu_data/per_container_cpu_usage_gl2_20241004_235522.json saved successfully.
+getting power consumption per container for bookstore - gl2
+Query result for ./buy_books_new_run/1/power_consumption_data/per_container_power_consumption_gl2_20241004_235522.json saved successfully.
+Processing server: gl5
+getting cpu utilization per container for bookstore - gl5
+Query result for ./buy_books_new_run/1/system_cpu_data/per_container_cpu_usage_gl5_20241004_235522.json saved successfully.
+getting power consumption per container for bookstore - gl5
+Query result for ./buy_books_new_run/1/power_consumption_data/per_container_power_consumption_gl5_20241004_235522.json saved successfully.
+Processing server: gl6
+getting cpu utilization per container for bookstore - gl6
+Query result for ./buy_books_new_run/1/system_cpu_data/per_container_cpu_usage_gl6_20241004_235522.json saved successfully.
+getting power consumption per container for bookstore - gl6
+Query result for ./buy_books_new_run/1/power_consumption_data/per_container_power_consumption_gl6_20241004_235522.json saved successfully.
+2024-10-04T21:55:22Z
+2024-10-04T22:04:52Z
+<Response [204]>
+Processing server: gl2
+getting cpu utilization per container for bookstore - gl2
+Query result for ./buy_books_new_run/2/system_cpu_data/per_container_cpu_usage_gl2_20241005_000428.json saved successfully.
+getting power consumption per container for bookstore - gl2
+Query result for ./buy_books_new_run/2/power_consumption_data/per_container_power_consumption_gl2_20241005_000428.json saved successfully.
+Processing server: gl5
+getting cpu utilization per container for bookstore - gl5
+Query result for ./buy_books_new_run/2/system_cpu_data/per_container_cpu_usage_gl5_20241005_000428.json saved successfully.
+getting power consumption per container for bookstore - gl5
+Query result for ./buy_books_new_run/2/power_consumption_data/per_container_power_consumption_gl5_20241005_000428.json saved successfully.
+Processing server: gl6
+getting cpu utilization per container for bookstore - gl6
+Query result for ./buy_books_new_run/2/system_cpu_data/per_container_cpu_usage_gl6_20241005_000428.json saved successfully.
+getting power consumption per container for bookstore - gl6
+Query result for ./buy_books_new_run/2/power_consumption_data/per_container_power_consumption_gl6_20241005_000428.json saved successfully.
+2024-10-04T22:04:28Z
+2024-10-04T22:13:58Z
+<Response [204]>
+Processing server: gl2
+getting cpu utilization per container for bookstore - gl2
+Query result for ./buy_books_new_run/3/system_cpu_data/per_container_cpu_usage_gl2_20241005_001334.json saved successfully.
+getting power consumption per container for bookstore - gl2
+Query result for ./buy_books_new_run/3/power_consumption_data/per_container_power_consumption_gl2_20241005_001334.json saved successfully.
+Processing server: gl5
+getting cpu utilization per container for bookstore - gl5
+Query result for ./buy_books_new_run/3/system_cpu_data/per_container_cpu_usage_gl5_20241005_001334.json saved successfully.
+getting power consumption per container for bookstore - gl5
+Query result for ./buy_books_new_run/3/power_consumption_data/per_container_power_consumption_gl5_20241005_001334.json saved successfully.
+Processing server: gl6
+getting cpu utilization per container for bookstore - gl6
+Query result for ./buy_books_new_run/3/system_cpu_data/per_container_cpu_usage_gl6_20241005_001334.json saved successfully.
+getting power consumption per container for bookstore - gl6
+Query result for ./buy_books_new_run/3/power_consumption_data/per_container_power_consumption_gl6_20241005_001334.json saved successfully.
+2024-10-04T22:13:34Z
+2024-10-04T22:23:04Z
+<Response [204]>
+Processing server: gl2
+getting cpu utilization per container for bookstore - gl2
+Query result for ./buy_books_new_run/4/system_cpu_data/per_container_cpu_usage_gl2_20241005_002240.json saved successfully.
+getting power consumption per container for bookstore - gl2
+Query result for ./buy_books_new_run/4/power_consumption_data/per_container_power_consumption_gl2_20241005_002240.json saved successfully.
+Processing server: gl5
+getting cpu utilization per container for bookstore - gl5
+Query result for ./buy_books_new_run/4/system_cpu_data/per_container_cpu_usage_gl5_20241005_002240.json saved successfully.
+getting power consumption per container for bookstore - gl5
+Query result for ./buy_books_new_run/4/power_consumption_data/per_container_power_consumption_gl5_20241005_002240.json saved successfully.
+Processing server: gl6
+getting cpu utilization per container for bookstore - gl6
+Query result for ./buy_books_new_run/4/system_cpu_data/per_container_cpu_usage_gl6_20241005_002240.json saved successfully.
+getting power consumption per container for bookstore - gl6
+Query result for ./buy_books_new_run/4/power_consumption_data/per_container_power_consumption_gl6_20241005_002240.json saved successfully.
+2024-10-04T22:22:40Z
+2024-10-04T22:32:10Z
+<Response [204]>
+Processing server: gl2
+getting cpu utilization per container for bookstore - gl2
+Query result for ./buy_books_new_run/5/system_cpu_data/per_container_cpu_usage_gl2_20241005_003145.json saved successfully.
+getting power consumption per container for bookstore - gl2
+Query result for ./buy_books_new_run/5/power_consumption_data/per_container_power_consumption_gl2_20241005_003145.json saved successfully.
+Processing server: gl5
+getting cpu utilization per container for bookstore - gl5
+Query result for ./buy_books_new_run/5/system_cpu_data/per_container_cpu_usage_gl5_20241005_003145.json saved successfully.
+getting power consumption per container for bookstore - gl5
+Query result for ./buy_books_new_run/5/power_consumption_data/per_container_power_consumption_gl5_20241005_003146.json saved successfully.
+Processing server: gl6
+getting cpu utilization per container for bookstore - gl6
+Query result for ./buy_books_new_run/5/system_cpu_data/per_container_cpu_usage_gl6_20241005_003146.json saved successfully.
+getting power consumption per container for bookstore - gl6
+Query result for ./buy_books_new_run/5/power_consumption_data/per_container_power_consumption_gl6_20241005_003146.json saved successfully.
+2024-10-04T22:31:46Z
+2024-10-04T22:41:16Z
+<Response [204]>
+Processing server: gl2
+getting cpu utilization per container for bookstore - gl2
+Query result for ./buy_books_new_run/6/system_cpu_data/per_container_cpu_usage_gl2_20241005_004051.json saved successfully.
+getting power consumption per container for bookstore - gl2
+Query result for ./buy_books_new_run/6/power_consumption_data/per_container_power_consumption_gl2_20241005_004051.json saved successfully.
+Processing server: gl5
+getting cpu utilization per container for bookstore - gl5
+Query result for ./buy_books_new_run/6/system_cpu_data/per_container_cpu_usage_gl5_20241005_004051.json saved successfully.
+getting power consumption per container for bookstore - gl5
+Query result for ./buy_books_new_run/6/power_consumption_data/per_container_power_consumption_gl5_20241005_004051.json saved successfully.
+Processing server: gl6
+getting cpu utilization per container for bookstore - gl6
+Query result for ./buy_books_new_run/6/system_cpu_data/per_container_cpu_usage_gl6_20241005_004051.json saved successfully.
+getting power consumption per container for bookstore - gl6
+Query result for ./buy_books_new_run/6/power_consumption_data/per_container_power_consumption_gl6_20241005_004051.json saved successfully.
+2024-10-04T22:40:51Z
+2024-10-04T22:50:21Z
+<Response [204]>
+Processing server: gl2
+getting cpu utilization per container for bookstore - gl2
+Query result for ./buy_books_new_run/7/system_cpu_data/per_container_cpu_usage_gl2_20241005_004957.json saved successfully.
+getting power consumption per container for bookstore - gl2
+Query result for ./buy_books_new_run/7/power_consumption_data/per_container_power_consumption_gl2_20241005_004957.json saved successfully.
+Processing server: gl5
+getting cpu utilization per container for bookstore - gl5
+    %%  TToottaall        %%  RReecceeiivveedd  %%  XXffeerd  Average Speredd   A v eTriamgee   S p eTeidm e    T i m eT i m e  T iCmuer r e n t 
+T i m e     C u r r e n t 
+                                        D l o a d     U p l o a d  D l oTaodt a lU p l oSapde n t  T o t aLle f t  S pSepnete d 
+  L e f0t     S p e0e d 
+  0    0      0    0    0    0      0    0        00           00   - - : - -0: - -   - - :0- --:--:-- --:--:-- --:--:-- - : - -  0--:--:--     0100   194  100   153  100    41  40486  10849 --:--:-- --:--:-- --:--:-- 64666
+{"hostname":"gl5","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/8"}
+100   194  100   153  100    41  29192   7822 --:--:-- --:--:-- --:--:-- 38800
+{"hostname":"gl6","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/8"}
+CPU UTILIZATION OUTPUT SAVED TO: ./buy_books_new_run/7/system_cpu_data/cpu_usage_output_GreenLab-STF_20241004_224052.txt
+Powerstat output saved to ./buy_books_new_run/7/power_consumption_data/powerstat_output_GreenLab-STF_20241004_224052.txt
+    %%  TToottaall        %%  RReecceeiivveedd  %%  XXffeerrdd    AAvveerraaggee  SSppeeeedd      TTiimmee        TTiimmee          TTiimmee    CCuurrrreenntt
+
+                                                                  DDllooaadd    UUppllooaadd      TToottaall      SSppeenntt        LLeefftt    SSppeeeedd
+
+    00          00        00          00        00          00            00            00  ----::----::----  ----::----::----  ----::----::----          00100   194  100   153  100    41  37815  10133 --:--:-- --:--:-- --:--:-- 64666
+{"hostname":"gl5","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/9"}
+100   194  100   153  100    41  27722   7428 --:--:-- --:--:-- --:--:-- 38800
+{"hostname":"gl6","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/9"}
+CPU UTILIZATION OUTPUT SAVED TO: ./buy_books_new_run/8/system_cpu_data/cpu_usage_output_GreenLab-STF_20241004_224957.txt
+Powerstat output saved to ./buy_books_new_run/8/power_consumption_data/powerstat_output_GreenLab-STF_20241004_224957.txt
+    %%  TToottaall        %%  RReecceeiivveedd  %%  XXffeerrdd    AAvveerraaggee  SSppeeeedd      TTiimmee       T iTmiem e        T iTmiem e  C uCrurrernetn
+t 
+                                                                D lDolaoda d  U pUlpolaoda d    T oTtoatla l    S pSepnetn t      L eLfetf t  S pSepeede
+d
+   0  0        0  0      0  0        0  0      0  0        0  0       0        0    0   - - :0- --:--:-- --:--:-- --:--:-- --:--:-- --:--:-- - : - -  0    0100   196  100   154  100    42  40794  11125 --:--:-- --:--:-- --:--:-- 65333
+{"hostname":"gl5","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/10"}
+100   196  100   154  100    42  30060   8198 --:--:-- --:--:-- --:--:-- 39200
+{"hostname":"gl6","message":"Measurement scripts triggered successfully! Generating data at path: ~/bookstore/load_test_experiment/buy_books_new_run/10"}
+Powerstat output saved to ./buy_books_new_run/9/power_consumption_data/powerstat_output_GreenLab-STF_20241004_225903.txt
+CPU UTILIZATION OUTPUT SAVED TO: ./buy_books_new_run/9/system_cpu_data/cpu_usage_output_GreenLab-STF_20241004_225903.txt
+Query result for ./buy_books_new_run/7/system_cpu_data/per_container_cpu_usage_gl5_20241005_004957.json saved successfully.
+getting power consumption per container for bookstore - gl5
+Query result for ./buy_books_new_run/7/power_consumption_data/per_container_power_consumption_gl5_20241005_004957.json saved successfully.
+Processing server: gl6
+getting cpu utilization per container for bookstore - gl6
+Query result for ./buy_books_new_run/7/system_cpu_data/per_container_cpu_usage_gl6_20241005_004957.json saved successfully.
+getting power consumption per container for bookstore - gl6
+Query result for ./buy_books_new_run/7/power_consumption_data/per_container_power_consumption_gl6_20241005_004957.json saved successfully.
+2024-10-04T22:49:57Z
+2024-10-04T22:59:27Z
+<Response [204]>
+Processing server: gl2
+getting cpu utilization per container for bookstore - gl2
+Query result for ./buy_books_new_run/8/system_cpu_data/per_container_cpu_usage_gl2_20241005_005903.json saved successfully.
+getting power consumption per container for bookstore - gl2
+Query result for ./buy_books_new_run/8/power_consumption_data/per_container_power_consumption_gl2_20241005_005903.json saved successfully.
+Processing server: gl5
+getting cpu utilization per container for bookstore - gl5
+Query result for ./buy_books_new_run/8/system_cpu_data/per_container_cpu_usage_gl5_20241005_005903.json saved successfully.
+getting power consumption per container for bookstore - gl5
+Query result for ./buy_books_new_run/8/power_consumption_data/per_container_power_consumption_gl5_20241005_005903.json saved successfully.
+Processing server: gl6
+getting cpu utilization per container for bookstore - gl6
+Query result for ./buy_books_new_run/8/system_cpu_data/per_container_cpu_usage_gl6_20241005_005903.json saved successfully.
+getting power consumption per container for bookstore - gl6
+Query result for ./buy_books_new_run/8/power_consumption_data/per_container_power_consumption_gl6_20241005_005903.json saved successfully.
+2024-10-04T22:59:03Z
+2024-10-04T23:08:33Z
+<Response [204]>
+Processing server: gl2
+getting cpu utilization per container for bookstore - gl2
+Query result for ./buy_books_new_run/9/system_cpu_data/per_container_cpu_usage_gl2_20241005_010809.json saved successfully.
+getting power consumption per container for bookstore - gl2
+Query result for ./buy_books_new_run/9/power_consumption_data/per_container_power_consumption_gl2_20241005_010809.json saved successfully.
+Processing server: gl5
+getting cpu utilization per container for bookstore - gl5
+Query result for ./buy_books_new_run/9/system_cpu_data/per_container_cpu_usage_gl5_20241005_010809.json saved successfully.
+getting power consumption per container for bookstore - gl5
+Query result for ./buy_books_new_run/9/power_consumption_data/per_container_power_consumption_gl5_20241005_010809.json saved successfully.
+Processing server: gl6
+getting cpu utilization per container for bookstore - gl6
+Query result for ./buy_books_new_run/9/system_cpu_data/per_container_cpu_usage_gl6_20241005_010809.json saved successfully.
+getting power consumption per container for bookstore - gl6
+Query result for ./buy_books_new_run/9/power_consumption_data/per_container_power_consumption_gl6_20241005_010809.json saved successfully.
+2024-10-04T23:08:09Z
+2024-10-04T23:17:39Z
+<Response [204]>
+Processing server: gl2
+getting cpu utilization per container for bookstore - gl2
+Query result for ./buy_books_new_run/10/system_cpu_data/per_container_cpu_usage_gl2_20241005_011715.json saved successfully.
+getting power consumption per container for bookstore - gl2
+Query result for ./buy_books_new_run/10/power_consumption_data/per_container_power_consumption_gl2_20241005_011715.json saved successfully.
+Processing server: gl5
+getting cpu utilization per container for bookstore - gl5
+Query result for ./buy_books_new_run/10/system_cpu_data/per_container_cpu_usage_gl5_20241005_011715.json saved successfully.
+getting power consumption per container for bookstore - gl5
+Query result for ./buy_books_new_run/10/power_consumption_data/per_container_power_consumption_gl5_20241005_011715.json saved successfully.
+Processing server: gl6
+getting cpu utilization per container for bookstore - gl6
+Query result for ./buy_books_new_run/10/system_cpu_data/per_container_cpu_usage_gl6_20241005_011715.json saved successfully.
+getting power consumption per container for bookstore - gl6
+Query result for ./buy_books_new_run/10/power_consumption_data/per_container_power_consumption_gl6_20241005_011715.json saved successfully.
+CPU UTILIZATION OUTPUT SAVED TO: ./buy_books_new_run/10/system_cpu_data/cpu_usage_output_GreenLab-STF_20241004_230809.txt
+Powerstat output saved to ./buy_books_new_run/10/power_consumption_data/powerstat_output_GreenLab-STF_20241004_230809.txt

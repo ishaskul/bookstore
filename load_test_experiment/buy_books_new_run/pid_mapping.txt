@@ -1,0 +1,39 @@
+GL2 deployment: 
+{cmdline="/bin/bash/usr/local/bin/docker-entrypoint.sh--max_connections=3000000", exe="/usr/bin/bash", instance="145.108.225.7:8080", job="scaphandre", pid="3508468"}
+{cmdline="/bin/prometheus--config.file=/etc/prometheus/prometheus.yml", exe="/bin/prometheus", instance="145.108.225.7:8080", job="scaphandre", pid="3502937"}
+{cmdline="/usr/local/bin/scaphandreprometheus", exe="/usr/local/bin/scaphandre", instance="145.108.225.7:8080", job="scaphandre", pid="3503124"}
+{cmdline="consulagent-data-dir=/consul/data-config-dir=/consul/config-dev-client0.0.0.0", exe="/bin/consul", instance="145.108.225.7:8080", job="scaphandre", pid="3508550"}
+{cmdline="java-Djava.security.egd=file:/dev/./urandom-jar/account-service.jar", exe="/usr/lib/jvm/java-1.8-openjdk/jre/bin/java", instance="145.108.225.7:8080", job="scaphandre", pid="3509623"}
+{cmdline="java-Djava.security.egd=file:/dev/./urandom-jar/billing-service.jar", exe="/usr/lib/jvm/java-1.8-openjdk/jre/bin/java", instance="145.108.225.7:8080", job="scaphandre", pid="3509656"}
+{cmdline="java-Djava.security.egd=file:/dev/./urandom-jar/catalog-service.jar", exe="/usr/lib/jvm/java-1.8-openjdk/jre/bin/java", instance="145.108.225.7:8080", job="scaphandre", pid="3509657"}
+{cmdline="java-Djava.security.egd=file:/dev/./urandom-jar/gateway-server.jar", exe="/usr/lib/jvm/java-1.8-openjdk/jre/bin/java", instance="145.108.225.7:8080", job="scaphandre", pid="3508742"}
+{cmdline="java-Djava.security.egd=file:/dev/./urandom-jar/gateway-server.jar", exe="/usr/lib/jvm/java-1.8-openjdk/jre/bin/java", instance="145.108.225.7:8080", job="scaphandre", pid="3508873"}
+{cmdline="java-Djava.security.egd=file:/dev/./urandom-jar/gateway-server.jar", exe="/usr/lib/jvm/java-1.8-openjdk/jre/bin/java", instance="145.108.225.7:8080", job="scaphandre", pid="3508959"}
+{cmdline="java-Djava.security.egd=file:/dev/./urandom-jar/order-service.jar", exe="/usr/lib/jvm/java-1.8-openjdk/jre/bin/java", instance="145.108.225.7:8080", job="scaphandre", pid="3509703"}
+{cmdline="java-Djava.security.egd=file:/dev/./urandom-jar/payment-service.jar", exe="/usr/lib/jvm/java-1.8-openjdk/jre/bin/java", instance="145.108.225.7:8080", job="scaphandre", pid="3509600"}
+{cmdline="telegraf", exe="/usr/bin/telegraf", instance="145.108.225.7:8080", job="scaphandre", pid="3508694"}
+
+
+GL5 deployment: 
+{cmdline="/usr/local/bin/scaphandreprometheus", exe="/usr/local/bin/scaphandre", instance="145.108.225.16:8080", job="scaphandre", pid="2235802"}
+{cmdline="chronograf", exe="/usr/bin/chronograf", instance="145.108.225.16:8080", job="scaphandre", pid="2241686"}
+{cmdline="influxd", exe="/usr/bin/influxd", instance="145.108.225.16:8080", job="scaphandre", pid="2242318"}
+{cmdline="java-Djava.security.egd=file:/dev/./urandom-jar/account-service.jar", exe="/usr/lib/jvm/java-1.8-openjdk/jre/bin/java", instance="145.108.225.16:8080", job="scaphandre", pid="2243189"}
+{cmdline="java-Djava.security.egd=file:/dev/./urandom-jar/billing-service.jar", exe="/usr/lib/jvm/java-1.8-openjdk/jre/bin/java", instance="145.108.225.16:8080", job="scaphandre", pid="2243115"}
+{cmdline="java-Djava.security.egd=file:/dev/./urandom-jar/catalog-service.jar", exe="/usr/lib/jvm/java-1.8-openjdk/jre/bin/java", instance="145.108.225.16:8080", job="scaphandre", pid="2243307"}
+{cmdline="java-Djava.security.egd=file:/dev/./urandom-jar/order-service.jar", exe="/usr/lib/jvm/java-1.8-openjdk/jre/bin/java", instance="145.108.225.16:8080", job="scaphandre", pid="2243219"}
+{cmdline="java-Djava.security.egd=file:/dev/./urandom-jar/payment-service.jar", exe="/usr/lib/jvm/java-1.8-openjdk/jre/bin/java", instance="145.108.225.16:8080", job="scaphandre", pid="2243163"}
+{cmdline="telegraf", exe="/usr/bin/telegraf", instance="145.108.225.16:8080", job="scaphandre", pid="2242668"}
+
+GL6 deployment:
+
+{cmdline="/usr/local/bin/scaphandreprometheus", exe="/usr/local/bin/scaphandre", instance="145.108.225.17:8080", job="scaphandre", pid="2029988"}
+{cmdline="java-Djava.security.egd=file:/dev/./urandom-jar/account-service.jar", exe="/usr/lib/jvm/java-1.8-openjdk/jre/bin/java", instance="145.108.225.17:8080", job="scaphandre", pid="2037300"}
+{cmdline="java-Djava.security.egd=file:/dev/./urandom-jar/billing-service.jar", exe="/usr/lib/jvm/java-1.8-openjdk/jre/bin/java", instance="145.108.225.17:8080", job="scaphandre", pid="2037197"}
+{cmdline="java-Djava.security.egd=file:/dev/./urandom-jar/catalog-service.jar", exe="/usr/lib/jvm/java-1.8-openjdk/jre/bin/java", instance="145.108.225.17:8080", job="scaphandre", pid="2037413"}
+{cmdline="java-Djava.security.egd=file:/dev/./urandom-jar/order-service.jar", exe="/usr/lib/jvm/java-1.8-openjdk/jre/bin/java", instance="145.108.225.17:8080", job="scaphandre", pid="2037273"}
+{cmdline="java-Djava.security.egd=file:/dev/./urandom-jar/payment-service.jar", exe="/usr/lib/jvm/java-1.8-openjdk/jre/bin/java", instance="145.108.225.17:8080", job="scaphandre", pid="2037244"}
+{cmdline="java-Xms512m-Xmx10g-cp.-Dlog4j2.disable.jmx=trueorg.springframework.boot.loader.launch.PropertiesLauncher", exe="/usr/lib/jvm/java-21-openjdk/bin/java", instance="145.108.225.17:8080", job="scaphandre", pid="2036320"}
+{cmdline="kapacitord", exe="/usr/bin/kapacitord", instance="145.108.225.17:8080", job="scaphandre", pid="2035897"}
+{cmdline="registryserve/etc/docker/registry/config.yml", exe="/bin/registry", instance="145.108.225.17:8080", job="scaphandre", pid="2034821"}
+{cmdline="telegraf", exe="/usr/bin/telegraf", instance="145.108.225.17:8080", job="scaphandre", pid="2036623"}
