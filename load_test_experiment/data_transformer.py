@@ -115,7 +115,7 @@ def generate_pid_conatiner_name_mapping_from_data(input_base_dir, resource_util_
                         container_name_prefix = "registry"
                     elif "trueorg.springframework.boot.loader.launch.PropertiesLauncher" in cmdline:
                         container_name_prefix = "zipkin"      
-                    elif "mysqld--max_connections=3000000" in cmdline:
+                    elif "max_connections=3000000" in cmdline:
                         container_name_prefix = "mysql"                 
                     else:
                         continue

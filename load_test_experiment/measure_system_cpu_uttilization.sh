@@ -9,6 +9,6 @@ OUTPUT_FILE="$OUTPUT_DIR/cpu_usage_output_${HOSTNAME}_$(date -u +'%Y%m%d_%H%M%S'
 mkdir -p "$OUTPUT_DIR"
 
 # output cpu util every 15 seconds until 8 minutes
-sar -u 15 32 > "$OUTPUT_FILE"
+sar -u 15 38 > "$OUTPUT_FILE"
 
 echo "CPU UTILIZATION OUTPUT SAVED TO: $OUTPUT_FILE"
