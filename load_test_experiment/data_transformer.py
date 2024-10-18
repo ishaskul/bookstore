@@ -6,6 +6,10 @@ import json
 from datetime import datetime
 import re
 import csv
+import pandas as pd
+from scipy.stats import kruskal, shapiro, f_oneway
+import matplotlib.pyplot as plt
+import scipy.stats as stats
 
 def transform_system_cpu_data_per_server_per_iteration(input_base_dir,output_base_dir, system_cpu_output_path ):
     if not os.path.exists(output_base_dir):
@@ -32,9 +36,12 @@ def transform_system_cpu_data_per_server_per_iteration(input_base_dir,output_bas
 
                     for line in lines:
                         splitted_line = line.split()
-
-                        if len(splitted_line) == 8 and not line.startswith("Average:") and "idle" not in line:
-                            csvwriter.writerow(splitted_line)
+                        if(machine == 'gl5' or machine == 'gl6'):
+                            if len(splitted_line) == 9 and not line.startswith("Average:") and "idle" not in line:
+                                csvwriter.writerow(splitted_line)
+                        else:
+                            if len(splitted_line) == 8 and not line.startswith("Average:") and "idle" not in line:
+                                csvwriter.writerow(splitted_line)
 
 def transform_system_power_consumption_data_per_server_per_iteration(input_base_dir, output_base_dir, system_power_consumption_output_path):
     if not os.path.exists(output_base_dir):
@@ -183,6 +190,74 @@ def transform_per_container_resource_util_per_server(input_base_dir, output_base
                                     writer.writeheader()
                                 writer.writerow(csv_row)
 
+def calculate_cpu_utilization_from_idle_time(output_base_dir, servers):
+    for server in servers:
+        system_cpu_utilization_data_folder = os.path.join(output_base_dir, server, "system_cpu_data")
+        for i in range(1, 11):
+            cpu_util_csv_file_path = os.path.join(system_cpu_utilization_data_folder, f"cpu_usage_output_{server}_it_{i}.csv")
+            df = pd.read_csv(cpu_util_csv_file_path)  # corrected the variable name here as well
+            df['cpu_utilization'] = (100 - df['idle']).round(2)
+            df.to_csv(cpu_util_csv_file_path, index=False)
+
+def perform_kruskal_wallis_test_on_total_system_cpu_util_data(output_base_dir, servers):
+    for server in servers:
+        all_iterations_data = []
+
+        system_cpu_utilization_data_folder = os.path.join(output_base_dir, server, "system_cpu_data")
+        for i in range(1, 11):
+            cpu_util_csv_file_path = os.path.join(system_cpu_utilization_data_folder, f"cpu_usage_output_{server}_it_{i}.csv")
+            df = pd.read_csv(cpu_util_csv_file_path)
+            cpu_utilization_data = df['cpu_utilization']
+            all_iterations_data.append(cpu_utilization_data)
+
+        # Perform the Kruskal-Wallis test
+        kruskal_result = kruskal(*all_iterations_data)
+        print(f"KW Test Result for Total System CPU Utilization Data: {server}")
+        print(f"P-value: {kruskal_result.pvalue}")
+        print("-" * 40)
+
+def perform_statistical_tests_on_total_system_power_consumption_data(output_base_dir, servers):
+    for server in servers:
+        all_iterations_data = []
+
+        system_cpu_utilization_data_folder = os.path.join(output_base_dir, server, "power_consumption_data")
+        
+        # Ensure the folder exists to save plots
+        if not os.path.exists(system_cpu_utilization_data_folder):
+            os.makedirs(system_cpu_utilization_data_folder)
+        
+        for i in range(1, 11):
+            power_consumption_csv_file_path = os.path.join(system_cpu_utilization_data_folder, f"power_consumption_output_{server}_it_{i}.csv")
+            df = pd.read_csv(power_consumption_csv_file_path)
+            power_consumption_value = df['Watts']
+            all_iterations_data.append(power_consumption_value)
+
+            # Plot Q-Q plot for the current iteration
+            plt.figure(figsize=(8, 6))
+            stats.probplot(power_consumption_value, dist="norm", plot=plt)
+            plt.title(f'Q-Q Plot for {server} - Iteration {i}')
+            plt.xlabel('Theoretical Quantiles')
+            plt.ylabel('Sample Quantiles')
+            plt.grid()
+
+            # Save the plot as a PNG image
+            qq_plot_path = os.path.join(system_cpu_utilization_data_folder, f'qq_plot_{server}_it_{i}.png')
+            plt.savefig(qq_plot_path)  # Save the plot
+            plt.close()  # Close the plot to free up memory
+
+        # Perform tests based on the server name
+        if server == "gl5":  # Check if server is gl5
+            # Perform ANOVA test for normally distributed data
+            anova_result = f_oneway(*all_iterations_data)
+            print(f"ANOVA Test Result for Total System Power Consumption Data: {server}")
+            print(f"P-value: {anova_result.pvalue}")
+        else:
+            # Perform Kruskal-Wallis test for non-normally distributed data
+            kruskal_result = kruskal(*all_iterations_data)
+            print(f"Kruskal-Wallis Test Result for Total System Power Consumption Data: {server}")
+            print(f"P-value: {kruskal_result.pvalue}")
+
+        print("-" * 40)
 
 
 if len(sys.argv) < 2:
@@ -196,6 +271,7 @@ system_cpu_output_path = 'system_cpu_data'
 system_power_consumption_output_path = 'power_consumption_data'
 
 transform_system_cpu_data_per_server_per_iteration(input_base_dir,output_base_dir, system_cpu_output_path)
+calculate_cpu_utilization_from_idle_time(output_base_dir, green_lab_machines)
 transform_per_container_resource_util_per_server(input_base_dir,output_base_dir, system_cpu_output_path) # transform per container cpu utilization data from prometheus
 transform_per_container_resource_util_per_server(input_base_dir,output_base_dir, system_power_consumption_output_path)# transform per container power consumption data from prometheus
 transform_system_power_consumption_data_per_server_per_iteration(input_base_dir,output_base_dir, system_power_consumption_output_path)
