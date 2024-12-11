@@ -1,0 +1,7 @@
+hostname,container_name,pid
+gl5,bs_bookstore-telegraf.3.xukvcgum4gghkj64yudjmds2t,2564460
+gl5,bs_bookstore-order-service.1.rhufa0fnx1vie2ujh324vdoka,2563994
+gl5,bs_bookstore-billing-service.1.gge1g5rhwn1ahaqzajfv9e6d8,2563527
+gl5,bs_bookstore-kapacitor.1.xzx1dpppljqaief919qzmoxdj,2350751
+gl5,bs_bookstore-chronograf.1.npicxc43xw9m9y1khd3taan66,2350311
+gl5,bs_bookstore-zipkin.1.mi9hwd1hgf1qxxxi40xm639h5,2350013

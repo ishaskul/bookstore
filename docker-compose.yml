@@ -1,12 +1,9 @@
-version: "3.4"
-
 services:
 
   # Database
   bookstore-mysql-db:
     image: mysql:5.7
-    command: [ "--max_connections=30000" ]
-    container_name: bookstore-mysql-db
+    command: [ "--max_connections=3000000", "--plugin-load=query_response_time.so" ]
     hostname: bookstore-mysql-db
     restart: always
     environment:
@@ -27,7 +24,6 @@ services:
   bookstore-consul-discovery:
     hostname: bookstore-consul-discovery
     image: hashicorp/consul
-    container_name: bookstore-consul-discovery
     restart: always
     ports:
       - "8500:8500"
@@ -44,7 +40,6 @@ services:
         JAR_FILE: bookstore-api-gateway-service-0.0.1-SNAPSHOT.jar
       dockerfile: Dockerfile
     image: 127.0.0.1:5000/bookstore-zuul-api-gateway-server
-    container_name: bookstore-zuul-api-gateway-server
     hostname: bookstore-zuul-api-gateway-server
     ports:
       - "8765:8765"
@@ -54,7 +49,9 @@ services:
       - SERVER_PORT=8765
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+      - HOSTNAME=${HOSTNAME}
     deploy:
+      replicas: 3
       placement:
         constraints: [node.role == manager]
 
@@ -65,7 +62,6 @@ services:
         JAR_FILE: bookstore-account-service-0.0.1-SNAPSHOT.jar
       dockerfile: Dockerfile
     image: 127.0.0.1:5000/bookstore-account-service
-    container_name: bookstore-account-service
     hostname: bookstore-account-service
     ports:
       - "4001:4001"
@@ -75,9 +71,9 @@ services:
       - SERVER_PORT=4001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+      - HOSTNAME=${HOSTNAME}
     deploy:
-      placement:
-        constraints: [node.role == manager]
+      mode: global
       labels:
         swarm.autoscaler: 'true'
         swarm.autoscaler.maximum: '4'
@@ -90,7 +86,6 @@ services:
         JAR_FILE: bookstore-billing-service-0.0.1-SNAPSHOT.jar
       dockerfile: Dockerfile
     image: 127.0.0.1:5000/bookstore-billing-service
-    container_name: bookstore-billing-service
     hostname: bookstore-billing-service
     ports:
       - "5001:5001"
@@ -100,7 +95,9 @@ services:
       - SERVER_PORT=5001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+      - HOSTNAME=${HOSTNAME}
     deploy:
+      mode: global
       labels:
         swarm.autoscaler: 'true'
         swarm.autoscaler.maximum: '4'
@@ -113,7 +110,6 @@ services:
         JAR_FILE: bookstore-catalog-service-0.0.1-SNAPSHOT.jar
       dockerfile: Dockerfile
     image: 127.0.0.1:5000/bookstore-catalog-service
-    container_name: bookstore-catalog-service
     hostname: bookstore-catalog-service
     ports:
       - "6001:6001"
@@ -123,7 +119,9 @@ services:
       - SERVER_PORT=6001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+      - HOSTNAME=${HOSTNAME}
     deploy:
+      mode: global
       labels:
         swarm.autoscaler: 'true'
         swarm.autoscaler.maximum: '4'
@@ -136,7 +134,6 @@ services:
         JAR_FILE: bookstore-order-service-0.0.1-SNAPSHOT.jar
       dockerfile: Dockerfile
     image: 127.0.0.1:5000/bookstore-order-service
-    container_name: bookstore-order-service
     hostname: bookstore-order-service
     ports:
       - "7001:7001"
@@ -146,7 +143,9 @@ services:
       - SERVER_PORT=7001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+      - HOSTNAME=${HOSTNAME}
     deploy:
+      mode: global
       labels:
         swarm.autoscaler: 'true'
         swarm.autoscaler.maximum: '4'
@@ -159,7 +158,6 @@ services:
         JAR_FILE: bookstore-payment-service-0.0.1-SNAPSHOT.jar
       dockerfile: Dockerfile
     image: 127.0.0.1:5000/bookstore-payment-service
-    container_name: bookstore-payment-service
     hostname: bookstore-payment-service
     ports:
       - "8001:8001"
@@ -169,7 +167,9 @@ services:
       - SERVER_PORT=8001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+      - HOSTNAME=${HOSTNAME}
     deploy:
+      mode: global
       labels:
         swarm.autoscaler: 'true'
         swarm.autoscaler.maximum: '4'
@@ -178,7 +178,6 @@ services:
   # Tracing service
   bookstore-zipkin:
     image: openzipkin/zipkin
-    container_name: bookstore-zipkin
     hostname: bookstore-zipkin
     environment:
       - JAVA_OPTS=-Xms512m -Xmx10g
@@ -193,7 +192,6 @@ services:
       context: ./bookstore-telegraph
       dockerfile: Dockerfile
     image: 127.0.0.1:5000/bookstore-telegraf
-    container_name: bookstore-telegraf
     user: telegraf:999
     hostname: bookstore-telegraf
     environment:
@@ -209,7 +207,6 @@ services:
 
   bookstore-influxdb:
     image: influxdb:1.7.6
-    container_name: bookstore-influxdb
     hostname: bookstore-influxdb
     volumes:
       - booksture-influxdb-volume:/var/lib/influxdb
@@ -220,7 +217,6 @@ services:
 
   bookstore-chronograf:
     image: chronograf:1.7.3
-    container_name: bookstore-chronograf
     hostname: bookstore-chronograf
     environment:
       INFLUXDB_URL: http://bookstore-influxdb:8086
@@ -235,7 +231,6 @@ services:
 
   bookstore-kapacitor:
     image: kapacitor
-    container_name: bookstore-kapacitor
     hostname: bookstore-kapacitor
     environment:
       KAPACITOR_HOSTNAME: bookstore-kapacitor
@@ -244,6 +239,20 @@ services:
       - "9092:9092"
     networks:
       - bookstore-app-network
+
+  mysqld-exporter:
+    image: prom/mysqld-exporter:v0.14.0
+    environment:
+      - DATA_SOURCE_NAME=bookstoreDBA:PaSSworD@(bookstore-mysql-db:3306)/bookstore_db
+    ports:
+      - 9104:9104
+    depends_on:
+      - bookstore-mysql-db
+    networks:
+      - bookstore-app-network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
 volumes:
   bookstore-db-volume:

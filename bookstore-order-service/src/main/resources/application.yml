@@ -29,6 +29,13 @@ logging:
     com.devd.spring.*: DEBUG
 
 management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
+  metrics:
+    tags:
+      service: order-service
   endpoint:
     hystrix:
       stream:

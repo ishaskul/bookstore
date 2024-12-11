@@ -56,3 +56,9 @@ hystrix:
         isolation:
           thread:
             timeoutInMilliseconds: 100000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus

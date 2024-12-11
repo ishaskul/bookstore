@@ -1,0 +1,12 @@
+[Unit]
+Description=Measurement triggering service for measuring system cpu utilziation and power consumption for a specified time frame
+
+[Service]
+User=ishas
+WorkingDirectory=/home/ishas/bookstore/measurement_triggering_api
+ExecStart=/usr/bin/python3.10 trigger_system_util_measurement.py
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

@@ -1,6 +1,8 @@
 package com.devd.spring.bookstorecatalogservice.controller;
 
 import com.devd.spring.bookstorecommons.exception.RunTimeExceptionPlaceHolder;
+import io.micrometer.core.instrument.MeterRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Devaraj Reddy - 21-Dec-2020
@@ -35,9 +38,13 @@ import java.util.UUID;
 @RestController
 public class ImageUploadController {
 
+    @Autowired
+    private MeterRegistry meterRegistry;
+
     @PostMapping("image/upload")
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     public ResponseEntity<?> uploadImage(@RequestParam("imageFile") MultipartFile file) throws IOException {
+        long startTime = System.nanoTime();
         if (file == null) {
             throw new RunTimeExceptionPlaceHolder("Invalid Image!!");
         }
@@ -53,20 +60,30 @@ public class ImageUploadController {
         }
         Map<String, String> response = new HashMap<>();
         response.put("imageId", uuid.toString() + "__" + fileName);
+        long endTime = System.nanoTime();
+        meterRegistry.timer("image.upload.timer", "instance", System.getenv("HOSTNAME"))
+                .record(endTime - startTime, TimeUnit.NANOSECONDS);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping(path = "image/{imageId}")
     public ResponseEntity<?> getImage(@PathVariable String imageId) throws IOException {
+        long startTime = System.nanoTime();
         Optional<Path> images = Files.list(Paths.get("images")).filter(img -> img.getFileName().toString().equals(imageId)).findFirst();
         if (images.isPresent()) {
             final ByteArrayResource inputStream = new ByteArrayResource(Files.readAllBytes(images.get()));
+            long endTime = System.nanoTime();
+            meterRegistry.timer("image.get.timer", "instance", System.getenv("HOSTNAME"))
+                    .record(endTime - startTime, TimeUnit.NANOSECONDS);
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .contentType(MediaType.IMAGE_JPEG)
                     .contentLength(inputStream.contentLength())
                     .body(inputStream);
         }
+        long endTime = System.nanoTime();
+        meterRegistry.timer("image.get.timer", "instance", System.getenv("HOSTNAME"))
+                .record(endTime - startTime, TimeUnit.NANOSECONDS);
         return ResponseEntity.ok().build();
     }
 }
