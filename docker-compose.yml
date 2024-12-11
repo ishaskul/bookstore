@@ -3,7 +3,7 @@ services:
   # Database
   bookstore-mysql-db:
     image: mysql:5.7
-    command: [ "--max_connections=3000000" ]
+    command: [ "--max_connections=3000000", "--plugin-load=query_response_time.so" ]
     hostname: bookstore-mysql-db
     restart: always
     environment:
@@ -49,6 +49,7 @@ services:
       - SERVER_PORT=8765
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+      - HOSTNAME=${HOSTNAME}
     deploy:
       replicas: 3
       placement:
@@ -70,6 +71,7 @@ services:
       - SERVER_PORT=4001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+      - HOSTNAME=${HOSTNAME}
     deploy:
       mode: global
       labels:
@@ -93,6 +95,7 @@ services:
       - SERVER_PORT=5001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+      - HOSTNAME=${HOSTNAME}
     deploy:
       mode: global
       labels:
@@ -116,6 +119,7 @@ services:
       - SERVER_PORT=6001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+      - HOSTNAME=${HOSTNAME}
     deploy:
       mode: global
       labels:
@@ -139,6 +143,7 @@ services:
       - SERVER_PORT=7001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+      - HOSTNAME=${HOSTNAME}
     deploy:
       mode: global
       labels:
@@ -162,6 +167,7 @@ services:
       - SERVER_PORT=8001
       - ZIPKIN_HOST=bookstore-zipkin:9411
       - SPRING_PROFILES_ACTIVE=docker
+      - HOSTNAME=${HOSTNAME}
     deploy:
       mode: global
       labels:
@@ -233,6 +239,20 @@ services:
       - "9092:9092"
     networks:
       - bookstore-app-network
+
+  mysqld-exporter:
+    image: prom/mysqld-exporter:v0.14.0
+    environment:
+      - DATA_SOURCE_NAME=bookstoreDBA:PaSSworD@(bookstore-mysql-db:3306)/bookstore_db
+    ports:
+      - 9104:9104
+    depends_on:
+      - bookstore-mysql-db
+    networks:
+      - bookstore-app-network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
 volumes:
   bookstore-db-volume:

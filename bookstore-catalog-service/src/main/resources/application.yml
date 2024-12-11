@@ -39,6 +39,9 @@ management:
     web:
       exposure:
         include: health, info, prometheus
+  metrics:
+    tags:
+      service: catalog-service
 ---
 
 spring:

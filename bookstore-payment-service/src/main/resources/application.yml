@@ -38,6 +38,9 @@ management:
     web:
       exposure:
         include: health, info, prometheus
+  metrics:
+    tags:
+      service: payment-service
   endpoint:
     hystrix:
       stream:

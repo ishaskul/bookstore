@@ -7,8 +7,10 @@ from datetime import datetime, timedelta, timezone
 import os
 from requests.utils import quote
 
+gl2_ip = "145.108.225.7"
 gl5_ip = "145.108.225.16"
 gl6_ip = "145.108.225.17"
+
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Accept arguments")
     parser.add_argument('--app', type=str, required=True, help="Name of the app for which you are running the experiment")
@@ -64,6 +66,9 @@ def get_current_timestamp():
 def run_promethues_queries_for_app(app, servers, start_time, end_time, output_folder_path):
     with open('prometheus_queries.json', 'r') as file:
         data = json.load(file)
+
+    with open('buy-books-scenario-per-service-job-details.json', 'r') as file:
+        job_details_per_service_for_buy_books_scenario = json.load(file)    
     
     for server in servers:
         print(f"Processing server: {server}")
@@ -77,6 +82,31 @@ def run_promethues_queries_for_app(app, servers, start_time, end_time, output_fo
         power_consumption_url = f"http://145.108.225.7:9090/api/v1/query_range?query={power_consumption_query_url_encoded}"
         print(f"getting power consumption per container for {app} - {server}")
         run_promethues_query(power_consumption_url, f"{output_folder_path}/power_consumption_data/per_container_power_consumption_{server}_{get_current_timestamp()}.json")
+        get_service_time_query_string = data[app]['get_service_times']['query']
+        for service, details in job_details_per_service_for_buy_books_scenario.items():
+            if server == "gl2":
+                server_ip = gl2_ip
+            elif server == "gl5":
+                server_ip = gl5_ip
+            elif server == "gl6":
+                server_ip = gl6_ip    
+            for job in details['jobs']:
+                print(f"getting service times for {server} - {service} - {job}")
+                get_service_time_query_with_job_replaced = get_service_time_query_string.replace("<job>", job)
+                get_service_time_query_with_server_replaced = get_service_time_query_with_job_replaced.replace("<url>", f"{server_ip}:{details['port_number']}")
+                get_service_time_query =  f"{get_service_time_query_with_server_replaced}&start={start_time}&end={end_time}&step=15s"
+                get_service_time_query_url_encoded = quote(get_service_time_query, safe='=&')
+                get_service_time_complete_url = f"http://145.108.225.7:9090/api/v1/query_range?query={get_service_time_query_url_encoded}"
+                service_time_output_folder_path = f"{output_folder_path}/service_time_data/{server}"
+                os.makedirs(service_time_output_folder_path, exist_ok=True)
+                run_promethues_query(get_service_time_complete_url, f"{service_time_output_folder_path}/{service}_{job}_{get_current_timestamp()}.json")
+
+    get_arrival_rates_query = f"{data[app]['get_arrival_rates']['query']}&start={start_time}&end={end_time}&step=15s"
+    get_arrival_rates_query_url_encoded = quote(get_arrival_rates_query, safe='=&')
+    get_arrival_rates_url = f"http://145.108.225.7:9090/api/v1/query_range?query={get_arrival_rates_query_url_encoded}"
+    arrival_rates_output_folder_path = f"{output_folder_path}/arrival_rates_data"
+    os.makedirs(arrival_rates_output_folder_path, exist_ok=True)
+    run_promethues_query(get_arrival_rates_url, f"{arrival_rates_output_folder_path}/scraped_arrival_rates_all_servers_{get_current_timestamp()}.json")
 
 def run_promethues_query(url, output_file):
     response = requests.get(url)

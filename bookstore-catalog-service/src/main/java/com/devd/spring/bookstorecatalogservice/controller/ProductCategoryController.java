@@ -5,6 +5,7 @@ import com.devd.spring.bookstorecatalogservice.service.ProductCategoryService;
 import com.devd.spring.bookstorecatalogservice.web.CreateProductCategoryRequest;
 import com.devd.spring.bookstorecatalogservice.web.ProductCategoriesPagedResponse;
 import com.devd.spring.bookstorecatalogservice.web.UpdateProductCategoryRequest;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -13,18 +14,12 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author: Devaraj Reddy,
@@ -36,11 +31,17 @@ public class ProductCategoryController {
     @Autowired
     ProductCategoryService productCategoryService;
 
+    @Autowired
+    private MeterRegistry meterRegistry;
+
     @PostMapping("/productCategory")
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     public ResponseEntity<?> createProductCategory(@RequestBody @Valid CreateProductCategoryRequest createProductCategoryRequest) {
-
+        long startTime = System.nanoTime();
         String productCategory = productCategoryService.createProductCategory(createProductCategoryRequest);
+        long endTime = System.nanoTime();
+        meterRegistry.timer("productCategory.create.timer", "instance", System.getenv("HOSTNAME"))
+                .record(endTime - startTime, TimeUnit.NANOSECONDS);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest().path("/{productCategoryId}")
@@ -51,8 +52,11 @@ public class ProductCategoryController {
 
     @GetMapping("/productCategory/{productCategoryId}")
     public ResponseEntity<ProductCategory> getProductCategory(@PathVariable("productCategoryId") String productCategoryId) {
-
+        long startTime = System.nanoTime();
         ProductCategory productCategory = productCategoryService.getProductCategory(productCategoryId);
+        long endTime = System.nanoTime();
+        meterRegistry.timer("productCategory.get.timer", "instance", System.getenv("HOSTNAME"))
+                .record(endTime - startTime, TimeUnit.NANOSECONDS);
 
         return ResponseEntity.ok(productCategory);
     }
@@ -60,8 +64,11 @@ public class ProductCategoryController {
     @DeleteMapping("/productCategory/{productCategoryId}")
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     public ResponseEntity<?> deleteProductCategory(@PathVariable("productCategoryId") String productCategoryId) {
-
+        long startTime = System.nanoTime();
         productCategoryService.deleteProductCategory(productCategoryId);
+        long endTime = System.nanoTime();
+        meterRegistry.timer("productCategory.delete.timer", "instance", System.getenv("HOSTNAME"))
+                .record(endTime - startTime, TimeUnit.NANOSECONDS);
 
         return ResponseEntity.noContent().build();
     }
@@ -69,8 +76,11 @@ public class ProductCategoryController {
     @PutMapping("/productCategory")
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     public ResponseEntity<?> updateProductCategory(@RequestBody @Valid UpdateProductCategoryRequest updateProductCategoryRequest) {
-
+        long startTime = System.nanoTime();
         productCategoryService.updateProductCategory(updateProductCategoryRequest);
+        long endTime = System.nanoTime();
+        meterRegistry.timer("productCategory.update.timer", "instance", System.getenv("HOSTNAME"))
+                .record(endTime - startTime, TimeUnit.NANOSECONDS);
 
         return ResponseEntity.noContent().build();
     }
@@ -80,15 +90,15 @@ public class ProductCategoryController {
                                                      @RequestParam(value = "page", required = false) Integer page,
                                                      @RequestParam(value = "size", required = false) Integer size,
                                                      PagedResourcesAssembler<ProductCategory> assembler) {
-    
+        long startTime = System.nanoTime();
         Page<ProductCategory> list = productCategoryService.getAllProductCategories(sort, page, size);
-    
+
         Link link = new Link(ServletUriComponentsBuilder.fromCurrentRequest()
-                                                        .build()
-                                                        .toUriString());
+                .build()
+                .toUriString());
 
         PagedModel<EntityModel<ProductCategory>> resource = assembler.toModel(list, link);
-    
+
         ProductCategoriesPagedResponse productCategoriesPagedResponse = new ProductCategoriesPagedResponse();
         productCategoriesPagedResponse.setPage(list);
 
@@ -111,8 +121,11 @@ public class ProductCategoryController {
         if (resource.getLink("last").isPresent()) {
             productCategoriesPagedResponse.get_links().put("last", resource.getLink("last").get().getHref());
         }
-    
-        return ResponseEntity.ok(productCategoriesPagedResponse);
 
+        long endTime = System.nanoTime();
+        meterRegistry.timer("productCategory.getAll.timer", "instance", System.getenv("HOSTNAME"))
+                .record(endTime - startTime, TimeUnit.NANOSECONDS);
+
+        return ResponseEntity.ok(productCategoriesPagedResponse);
     }
 }
