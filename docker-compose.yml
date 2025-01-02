@@ -19,6 +19,9 @@ services:
       - bookstore-db-volume:/var/lib/mysql
     networks:
       - bookstore-app-network
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   # Core services
   bookstore-consul-discovery:
