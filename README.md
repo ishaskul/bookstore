@@ -165,4 +165,20 @@ nohup python3 run_experiment.py --app bookstore \
     --iterations 10 > experiment.log 2>&1 &
 ```
 
+### Overview of Replication Package Experiment Runner
+This replication package is structured as follows:
+
+```
+    /
+    .
+    |--- ./load_test_experiment/run_experiment.py                                                   Main source code of the experiment runner for triggering Gatling stress test
+    |--- ./load_test_experiment/prometheus_queries.json                                             JSON file that contains the prometheus queries to be executed to capture performance metrics such as CPU Util, Power Consumption
+    |--- ./load_test_experiment/measure_system_cpu_uttilization.sh                                  Shell script which profiles the system level cpu utilization using SAR package in linux
+    |--- ./load_test_experiment/measure_system_power_consumption.sh                                 Shell script which profiles the system level power consumption using Powerstat package in linux
+    |--- ./load_test_experiment/buy_books_final                                                     Profiled data that is used as the actual data against which the performance model is validated
+    |--- ./measurement_triggering_api/trigger_system_util_measurement.py                            Simple flash server which exposes a POST API to start profiling system level cpu utilization and power consumption
+    |--- ./measurement_triggering_api/measure_resource_utilization.service                          A systemd service to trigger system CPU utilization and power consumption measurements for a specified duration.
+    |--- ./run_model_and_analysis_scripts.sh                                                        Simple shell script that runs the model and the data analysis scripts to get the prediction plots of the model
+```
+
 
