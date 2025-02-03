@@ -128,6 +128,7 @@ password: 'cores.devd123'
 ```curl 93ed453e-b7ac-4192-a6d4-c45fae0d99ac:client.devd123@localhost:4001/oauth/token -d grant_type=password -d username=admin.admin -d password=admin.devd123```
 
 ### Experiment Runner Block Diagram
+![Alt text](./images/Experiment_runner.jpg)
 
 ### Stress Testing the Bookstore Application using experiment runner
 
