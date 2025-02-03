@@ -165,7 +165,7 @@ nohup python3 run_experiment.py --app bookstore \
     --iterations 10 > experiment.log 2>&1 &
 ```
 
-### Overview of Replication Package Experiment Runner
+### Overview of Replication Package for Experiment Runner
 This replication package is structured as follows:
 
 ```
