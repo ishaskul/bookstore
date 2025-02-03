@@ -126,3 +126,42 @@ password: 'cores.devd123'
 *To get the accessToken (Admin User)* 
 
 ```curl 93ed453e-b7ac-4192-a6d4-c45fae0d99ac:client.devd123@localhost:4001/oauth/token -d grant_type=password -d username=admin.admin -d password=admin.devd123```
+
+### Experiment Runner Block Diagram
+
+### Stress Testing the Bookstore Application using experiment runner
+
+This document outlines the procedure to run a stress test experiment on the Bookstore application deployed on a Docker Swarm cluster.
+
+## Prerequisites
+- Ensure you have access to the manager node of your Docker Swarm cluster.
+- The Bookstore application repository must be cloned in the home directory.
+- Python 3 should be installed on the manager node.
+
+## Running the Experiment
+
+To run the experiment, follow these steps in sequence:
+
+```sh
+# Step 1: SSH into the Manager Node
+ssh ishas@145.108.225.7
+
+# Step 2: Clone the Bookstore Repository (If Not Already Cloned)
+git clone https://github.com/ishaskul/bookstore.git
+
+# Step 3: Navigate to the Project Directory
+cd bookstore
+
+# Step 4: Navigate to the Load Testing Folder
+cd load_test_experiment
+
+# Step 5: Run the Experiment
+nohup python3 run_experiment.py --app bookstore \
+    --scenario bookstore.BuyBooksSimulation \
+    --ramp_up_duration 240 \
+    --no_of_users 3500 \
+    --output_folder ./buy_books_new_run \
+    --iterations 10 > experiment.log 2>&1 &
+```
+
+
